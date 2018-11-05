@@ -1,0 +1,47 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    main
+        .row
+            .col-md-12
+                h1 Liste CLIs:
+                if Clis.length > 0 
+                    .table-responsive
+                        table.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th SI
+                                    th CLI
+                                    th Titre
+                                    th Code Erreur
+                                    th Famille
+                                    th Creation
+                                    th Fermeture
+                                    th Etat
+                                    th Descriptif
+                                    th Entite responsable
+                                    th Entite en action
+                                    th Modif
+                            tbody
+                                each cli in Clis
+                                    tr
+                                        td #{cli.SI}
+                                        td #{cli.CLI}
+                                        td #{cli.TITRE}
+                                        td #{cli.CODE_ERREUR}
+                                        td #{cli.FAMILLE}
+                                        td #{cli.DATE_CREATION}
+                                        td #{cli.DATE_CLOTURE}
+                                        td #{cli.ETAT}
+                                        td #{cli.DESCRIPTIF}
+                                        td #{cli.ENTITE_RESPONSABLE}                                      
+                                        td #{cli.ENTITE_EN_ACTION}                                      
+                                        td
+                                            a.btn(href="/params/cli_edit/"+cli.CLI) Editer
+                                            
+                else
+                    h1 Pas d utilisateurs      

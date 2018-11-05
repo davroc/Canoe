@@ -1,0 +1,35 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    main
+        .row
+            .col-md-10
+                p.titre Liste utilisateurs:
+                if Usr.length > 0 
+                    .table-responsive
+                        table.table.table-striped.table-bordered
+                            thead
+                                tr
+                                    th Nom
+                                    th Prenom
+                                    th Login
+                                    th mail
+                                    th droits
+                                    th Editer
+                            tbody
+                                each user in Usr
+                                    tr
+                                        td #{user.nom_user}
+                                        td #{user.prenom_user}
+                                        td #{user.login_user}
+                                        td #{user.mail_user}
+                                        td #{user.droits_user}
+                                        td
+                                            a.btn(href="/admin/view_user/"+user.id_user) Modifier
+                                            a.btn(href="/admin/del_user/"+user.id_user) Supprimer
+                else
+                    h1 Pas d utilisateurs

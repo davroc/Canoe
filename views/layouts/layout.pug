@@ -5,38 +5,42 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         title #{pageTitle}
+        link(rel="stylesheet", href="/css/main.css")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
         
         block styles
-    body   
-        nav.navbar.navbar-expand-lg.navbar-light.bg-light
-            a.navbar-brand(href="#") Navbar
-            button.navbar-toggler(type="button",data-toggle="collapse",data-target="#navbarSupportedContent",aria-controls="navbarSupportedContent",aria-expanded="false",aria-label="Toggle navigation")
-                span.navbar-toggler.icon
+    body
+        .header   
+            nav.navbar.navbar-expand-lg.navbar-light.bg-light
+                a.navbar-brand(href="/") Canoe
+                button.navbar-toggler(type="button",data-toggle="collapse",data-target="#navbarSupportedContent",aria-controls="navbarSupportedContent",aria-expanded="false",aria-label="Toggle navigation")
+                    span.navbar-toggler.icon
 
-            div.collapse.navbar-collapse(id="navbarSupportedContent")
-                ul.navbar-nav.mr-auto
-                    li.nav-item.active
-                        a.nav-link(href="/") Home
-                            span.sr-only (current)
-                    li.nav-item
-                        a.nav-link(href="/codes/liste") Liste Codes  
-                    li.nav-item.dropdown
-                        a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
-                        div.dropdown-menu(aria-labelledby="navbarDropdown")
-                            a.dropdown-item(href="/admin/liste_diff") set Liste Diff
-                            a.dropdown-item(href="/admin/params", class=(path === '/admin/params' ? 'active' : '')) Parametrage       
-                    
-                    li.nav-item.dropdown
-                        a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
-                        div.dropdown-menu(aria-labelledby="navbarDropdown")
-                            a.dropdown-item(href='/admin/userslist') Liste Utilisateurs
-                            a.dropdown-item(href="/admin/adduser", class=(path === '/admin/add-product' ? 'active' : '')) Ajout Utilisateur
+                div.collapse.navbar-collapse(id="navbarSupportedContent")
+                    ul.navbar-nav.mr-auto
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Analyse
+                            div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                a.dropdown-item(href="/analyse/analyse_main") Analyse
+                                a.dropdown-item(href="/analyse/cni") CNI Code
 
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
+                            div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                a.dropdown-item(href="/params/liste_diff") set Liste Diff
+                                a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Liste de CLIs
+                                a.dropdown-item(href="/params/cli_edit", class=(path === '/params/cli_edit' ? 'active' : '')) Editer un CLI
+                                a.dropdown-item(href="/params/cli_add", class=(path === '/params/cli_add' ? 'active' : '')) Ajouter un CLI
+                
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
+                            div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                a.dropdown-item(href='/admin/userslist') Liste Utilisateurs
+                                a.dropdown-item(href="/admin/adduser", class=(path === '/admin/add-product' ? 'active' : '')) Ajout Utilisateur
+                                a.dropdown-item(href="/admin/view_user", class=(path === '/admin/view_user' ? 'active' : '')) Voir Utilisateur
+        .container-fluid
 
-
-
-        block content
+            block content
 
         script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ,integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" ,crossorigin="anonymous")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" ,crossorigin="anonymous")
