@@ -1,9 +1,13 @@
 extends ../layouts/layout.pug
 
 block styles
+    link(rel="stylesheet", href="/css/main.css")
     link(rel="stylesheet", href="/css/forms.css")
-    link(rel="stylesheet", href="/css/product.css")
 
 block content
     main
-    H1 #{user_data}
+        p.titre #{user_data[0].nom_user}
+        p.titre #{user_data[0].prenom_user}
+        p.titre #{user_data[0].login_user}
+        p.titre #{user_data[0].mail_user}
+        

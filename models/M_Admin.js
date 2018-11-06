@@ -12,7 +12,7 @@ exports.getUsersList = liste =>{
 exports.getUserDetail = (input,data) =>{
   console.log(input);
   const sql='SELECT * from users where id_user='+input;
-  console.log(sql);
+  //console.log(sql);
   db.execute(sql)
    .then(res=>{
      data(res[0]);

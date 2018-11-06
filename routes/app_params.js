@@ -11,9 +11,8 @@ const router = express.Router();
 
 //FAMILLES ET SOUS FAMILLES
 
-// param list
+// familles list
 router.get('/fam', paramController.getFamilles);
-
 
 //TICKETS
 
@@ -21,11 +20,12 @@ router.get('/fam', paramController.getFamilles);
 router.get('/clis', paramController.getCliList);
 
 // edition de ticket
-router.get('/cli_edit', paramController.editCli);
+router.get('/cli_edit/:cli', paramController.editCli);
 
 //ajout de ticket
 // param list
 router.get('/cli_add',paramController.addCli);
 
 
-exports.routes = router;
+//exports.routes = router;
+module.exports = router;

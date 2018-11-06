@@ -1,0 +1,32 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    main
+      h1.titre Edition de Cli
+        form(METHOD="POST",ACTION="/params/cli_edit")
+          label(for='edit_cli_si') SI
+          input.form-control(type='text',name='edit_cli_si',id='edit_cli_si',value=cli_data[0].SI)
+          label(for='edit_cli_code') CLI
+          input.form-control(type='text',name='edit_cli_code',id='edit_cli_code',value=cli_data[0].CLI)
+          label(for='edit_cli_titre') Titre
+          input.form-control(type='text',name='edit_cli_titre',id='edit_cli_titre',value=cli_data[0].TITRE)
+          label(for='edit_cli_code_erreur') Code Erreur
+          input.form-control(type='text',name='edit_cli_code_erreur',id='edit_cli_erreur',value=cli_data[0].CODE_ERREUR)
+          label(for='edit_cli_famille') Famille
+          input.form-control(type='text',name='edit_cli_famille',id='edit_cli_famille',value=cli_data[0].FAMILLE)
+          label(for='edit_cli_dt_creation') Date Creation
+          input.form-control(type='text',name='edit_cli_dt_creation',id='edit_cli_dt_creation',value=cli_data[0].DATE_CREATION)
+          label(for='edit_cli_dt_cloturee') CLI
+          input.form-control(type='text',name='edit_cli_dt_cloturee',id='edit_cli_dt_cloturee',value=cli_data[0].DATE_CLOTURE)
+          label(for='edit_cli_etat') Etat
+          input.form-control(type='text',name='edit_cli_etat',id='edit_cli_etat',value=cli_data[0].ETAT)
+          label(for='edit_cli_desc') Descriptif
+          input.form-control(type='text',name='edit_cli_desc',id='edit_cli_desc',value=cli_data[0].DESCRIPTIF)
+          label(for='edit_cli_ent_resp') Entité Responsable
+          input.form-control(type='text',name='edit_cli_ent_resp',id='edit_cli_ent_resp',value=cli_data[0].ENTITE_RESPONSABLE)
+          label(for='edit_cli_ent_action') Entité en Action
+          input.form-control(type='text',name='edit_cli_ent_action',id='edit_cli_ent_action',value=cli_data[0].ENTITE_EN_ACTION)

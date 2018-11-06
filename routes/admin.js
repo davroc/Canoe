@@ -20,5 +20,8 @@ router.get('/adduser', AdminController.addUser);
 // submiting new user
 router.post('/adduser', AdminController.postNewUser );
 
+//detail user
+router.get('/view_user/:userid', AdminController.viewUser);
+
 exports.routes = router;
 module.exports = router;

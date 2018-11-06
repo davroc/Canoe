@@ -1,12 +1,23 @@
-exports.getCliList = (req, res, next) => {
+const ParamModel= require('../models/M_Params');
 
-  res.render('params/clis', { pageTitle: 'Clis', path: '/params/clis' });
-}
+
+exports.getCliList =  (req, res, next) => {
+  ParamModel.getCliList(liste_cli =>{
+    //console.log(liste_cli);
+   res.render('params/clis', { pageTitle: 'Liste de Clis', path: '/params/clis' ,Clis: liste_cli });
+ });
+};
+
 
 exports.editCli = (req, res, next) => {
-
-  res.render('params/cli_edit', { pageTitle: 'Edition de ticket', path: '/params/edit_cli' });
-}
+  const id_cli=req.params.cli;
+  //console.log(id_cli);
+  ParamModel.getCliDetail(id_cli,cli_data =>{
+    console.log(cli_data);
+    res.render('params/edit_cli', { pageTitle: 'Edition de ticket', path: '/params/edit_cli' ,cli_data:cli_data});
+  })
+  
+};
 
 exports.addCli =  (req, res, next) => {
 

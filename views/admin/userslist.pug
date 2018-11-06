@@ -29,7 +29,7 @@ block content
                                         td #{user.mail_user}
                                         td #{user.droits_user}
                                         td
-                                            a.btn(href="/admin/view_user/"+user.id_user) Modifier
-                                            a.btn(href="/admin/del_user/"+user.id_user) Supprimer
+                                            a.btn.btn-primary(href="/admin/view_user/"+user.id_user) Modifier
+                                            a.btn.btn(href="/admin/del_user/"+user.id_user) Supprimer
                 else
                     h1 Pas d utilisateurs
