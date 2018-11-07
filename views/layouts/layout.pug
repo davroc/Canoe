@@ -27,11 +27,16 @@ html(lang="en")
                         li.nav-item.dropdown
                             a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
                             div.dropdown-menu(aria-labelledby="navbarDropdown")
-                                a.dropdown-item(href="/params/liste_diff") set Liste Diff
+                                .dropdown-divider 
                                 a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Liste de CLIs
-                                a.dropdown-item(href="/params/cli_edit", class=(path === '/params/cli_edit' ? 'active' : '')) Editer un CLI
                                 a.dropdown-item(href="/params/cli_add", class=(path === '/params/cli_add' ? 'active' : '')) Ajouter un CLI
-                
+                                .dropdown-divider 
+                                a.dropdown-item(href="/params/fam", class=(path === '/params/cli_add' ? 'active' : '')) Liste Familles 
+                                a.dropdown-item(href="/params/fam_add", class=(path === '/params/cli_add' ? 'active' : '')) Ajouter Familles
+                                .dropdown-divider 
+                                a.dropdown-item(href="/params/reporting", class=(path === '/params/cli_add' ? 'active' : '')) Parametres Reporting 
+                                .dropdown-divider
+                                a.dropdown-item(href="/params/inapp", class=(path === '/params/cli_add' ? 'active' : '')) Parametres InApp   
                         li.nav-item.dropdown
                             a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
                             div.dropdown-menu(aria-labelledby="navbarDropdown")

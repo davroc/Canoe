@@ -3,18 +3,44 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const db=require('./util/db');
+//const OraDB=require('oracledb');
 
+const dbBRM=require('./util/db_brm');
 const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
 
+// OraDB.getConnection({
+//     user: 'u122495',
+//     password:'T0matito21',
+//     connectString:'pcw00002scan0.services.prod/PBRM01P_CLI02'
+// },function(err, connex){
+// if (err){
+//     console.log(err.message);
+//     return;
+// }
+// connection.execute(
+//     `select * from pin.uniqueness_t where account_obj_id0=(
+//         select distinct account_obj_id0 from pin.uniqueness_t where login='33609187474');`,
+//     function(err, result) {
+//       if (err) {
+//         console.error(err.message);
+//         doRelease(connection);
+//         return;
+//       }
+//       console.log(result.rows);
+//       doRelease(connection);
+//     });
+// });
+
+
+
 const adminRoutes = require('./routes/admin');
 const paramRoutes = require('./routes/app_params');
-//console.log(paramRoutes);
 const analyseRoutes = require('./routes/code_analyse');
-// db.execute('SELECT * from bios_sous_famille')
+//dbBRM.execute('select * from pin.uniqueness_t limit 10')
+    
 // .then(res=>{console.log(res[0])})
 // .catch(err=>{console.log(err)});
 
