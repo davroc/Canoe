@@ -15,7 +15,8 @@ block content
             $(document).ready( function () {
                 $('#liste_clis').DataTable();
             } );
-
+    
+    
         .row
             .col-md-12
                 h1.titre Liste CLIs:
@@ -35,7 +36,6 @@ block content
                                     th Descriptif
                                     th Entite responsable
                                     th Entite en action
-                                    th Modif
                             tbody
                                 each cli in Clis
                                     tr
@@ -49,9 +49,7 @@ block content
                                         td #{cli.ETAT}
                                         td #{cli.DESCRIPTIF}
                                         td #{cli.ENTITE_RESPONSABLE}                                      
-                                        td #{cli.ENTITE_EN_ACTION}                                      
-                                        td
-                                            a.btn.btn-primary(href="/params/cli_edit/"+cli.id_cli) Editer
+                                        td #{cli.ENTITE_EN_ACTION}                                
                                             
                 else
                     h1 Pas de tickets      

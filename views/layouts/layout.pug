@@ -5,35 +5,42 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         title #{pageTitle}
+        script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ,integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" ,crossorigin="anonymous")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" ,crossorigin="anonymous")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js")
+        
         link(rel="stylesheet", href="/css/main.css")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
         
         block styles
     body
         .header   
-            nav.navbar.navbar-expand-lg.navbar-light.bg-light
+            nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
                 a.navbar-brand(href="/") Canoe
                 button.navbar-toggler(type="button",data-toggle="collapse",data-target="#navbarSupportedContent",aria-controls="navbarSupportedContent",aria-expanded="false",aria-label="Toggle navigation")
                     span.navbar-toggler.icon
 
                 div.collapse.navbar-collapse(id="navbarSupportedContent")
                     ul.navbar-nav.mr-auto
+                        li.nav-item
+                            a.nav-link(href="/analyse/alarmes") Alarmes
                         li.nav-item.dropdown
-                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Analyse
+                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Supervision
                             div.dropdown-menu(aria-labelledby="navbarDropdown")
-                                a.dropdown-item(href="/analyse/analyse_main") Analyse
-                                a.dropdown-item(href="/analyse/cni") CNI Code
+                                a.dropdown-item(href="/analyse/evo_ano") Evolution Anomalies
+                                a.dropdown-item(href="/analyse/liste_clis") Liste Incidents
+                                a.dropdown-item(href="/analyse/cni") Info Anomalie
 
                         li.nav-item.dropdown
                             a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
                             div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                a.dropdown-item(href="/params/errorcodes", class=(path === '/params/errorcodes' ? 'active' : '')) Gerer les codes d'erreur 
                                 .dropdown-divider 
-                                a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Liste de CLIs
-                                a.dropdown-item(href="/params/cli_add", class=(path === '/params/cli_add' ? 'active' : '')) Ajouter un CLI
-                                .dropdown-divider 
-                                a.dropdown-item(href="/params/fam", class=(path === '/params/cli_add' ? 'active' : '')) Liste Familles 
-                                a.dropdown-item(href="/params/fam_add", class=(path === '/params/cli_add' ? 'active' : '')) Ajouter Familles
-                                .dropdown-divider 
+                                a.dropdown-item(href="/params/typos", class=(path === '/params/typos' ? 'active' : '')) Gerer les typologies 
+                                .dropdown-divider
+                                a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Gerer les incidents
+                                a.dropdown-item(href="/params/cli_add", class=(path === '/params/cli_add' ? 'active' : '')) Ajouter un incident
+                                .dropdown-divider  
                                 a.dropdown-item(href="/params/reporting", class=(path === '/params/cli_add' ? 'active' : '')) Parametres Reporting 
                                 .dropdown-divider
                                 a.dropdown-item(href="/params/inapp", class=(path === '/params/cli_add' ? 'active' : '')) Parametres InApp   
@@ -46,6 +53,5 @@ html(lang="en")
 
             block content
 
-        script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ,integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" ,crossorigin="anonymous")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" ,crossorigin="anonymous")
-        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js")
+
+        

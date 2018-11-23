@@ -1,20 +1,124 @@
 extends ../layouts/layout.pug
 
 block styles
-    link(rel="stylesheet", href="/css/forms.css")
-    link(rel="stylesheet", href="/css/product.css")
+  link(rel="stylesheet", href="/css/cni.css")
+  link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
     main
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js')
+      
+      script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
+      
+      script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+      script.
+          $(document).ready( function () {
+              $('#liste_related_clis').DataTable();
+              $('#liste_related_alarms').DataTable();
+              $('#liste_typos').DataTable();
+          } );
+
       .container-fluid
-        h2 Code 
-        .row
-          .col-md-4
-            p Details Code
-          .col-md-4
-            p Alertes
-        .row
-          .col-md-4
-           p Graphs
-          .col-md-4
-           p Autre
+        if code_list.length > 0
+        .row.div_code_selecteur
+          .col
+            form(method='post',target='/cni')
+              span Selectionner le code:
+              select.code_selecteur(name='errCode',id='errCode')
+                each code in code_list
+                  option(value=code.ErrorCode,selected=(code.ErrorCode === SelectedCode ? true : false)) #{code.ErrorCode}
+              input.btn.btn-primary(type='submit',value='Afficher')
+
+        if SelectedCode
+          h2 Code #{SelectedCode}
+          .row
+            .col-md-6
+              .group-item
+                p.group-item_title Informations
+                  if codeDetail.length > 0
+                    table.table
+                      tr
+                        td
+                          b #{codeDetail[0].ErrorCode}
+                        td #{codeDetail[0].Description_ErrorCode}
+                  if Typos.length > 0
+                    table#liste_Typos.table.table-striped.table-bordered
+                      thead
+                        tr
+                          th Typologie
+                          th Collecte Impactée
+                          th Responsabilite
+                        for typo in Typos
+                          tr
+                              td(title=typo.source_potentielle)
+                                b #{typo.libelle_typologie}
+                              td #{typo.collecte_impactee}                    
+                              td #{typo.responsabilite}                    
+            .col-md-6
+              .group-item
+                p.group-item_title Alarmes
+                if relatedAlarms.length > 0
+                  .table-responsive
+                    table#liste_related_alarms.table.table-bordered
+                        thead
+                            tr
+                                th TYPE ALARME
+                                th VALEUR
+                                th DATE
+                        tbody
+                            each alarme in relatedAlarms
+                                tr
+                                    td #{alarme.type_flag}
+                                    td #{alarme.flag_val}
+                                    td #{alarme.date_flag}                                    
+                else
+                    .no-item-message pas d alarme
+          .row
+            .col-md-6
+              .group-item
+
+                p.group-item_title Evolution des Tickets
+                canvas(id="myChart")
+                  script. 
+                    var code_evo = !{code_evo}
+                    var lib=[];
+                    var data=[];
+                    for (var { code,dat,nb_tickets } of code_evo)
+                    {
+                     -lib.push(dat);
+                     -data.push(nb_tickets);
+                    }
+                    var myChart = new Chart(document.getElementById("myChart").getContext("2d"),{
+                        type:'line',
+                        data:{
+                          labels:lib,
+                          datasets:[{
+                            label:'Nb Tickets',
+                            data:data,
+                            backgroundColor:['rgba(45,110,132,0.2)']
+                          }]
+                        }
+                    })
+            .col-md-6
+              .group-item
+                  p.group-item_title Historique des Incidents
+                    if relatedClis.length > 0 
+                      .table-responsive
+                          table#liste_related_clis.table.table-bordered
+                              thead
+                                  tr
+                                      th SI
+                                      th CLI
+                                      th Titre
+                                      th Creation
+                                      th Etat
+                              tbody
+                                  each cli in relatedClis
+                                      tr
+                                          td #{cli.SI}
+                                          td #{cli.CLI}
+                                          td #{cli.TITRE}
+                                          td #{cli.DATE_CREATION}
+                                          td #{cli.ETAT}                                      
+                    else
+                      .no-item-message pas de clis

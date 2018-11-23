@@ -9,10 +9,14 @@ const paramController = require('../controllers/paramsController');
 const router = express.Router();
 
 
-//FAMILLES ET SOUS FAMILLES
+//codes et typologies
 
-// familles list
-router.get('/fam', paramController.getFamilles);
+// codes list
+router.get('/errorcodes', paramController.getErrorCodes);
+
+//typologies
+router.get('/typos', paramController.getTypos);
+
 
 //TICKETS
 

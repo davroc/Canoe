@@ -1,5 +1,30 @@
 const db=require('../util/db');
 
+//errorcodes
+
+
+exports.getCodesList = liste_errorCodes =>{
+  db.execute('select * from errorcodes')
+  .then(res=>{
+    liste_errorCodes(res[0]);
+   // console.log(liste_clis);
+  })
+ .catch(err=>{return err});
+}
+
+//typologies
+
+exports.getTypoList = liste_typos =>{
+  db.execute('select * from bios_typologies')
+  .then(res=>{
+    liste_typos(res[0]);
+   // console.log(liste_clis);
+  })
+ .catch(err=>{return err});
+}
+
+
+//tickets
 
 exports.getCliList  = liste_clis => {
   db.execute('SELECT * from cli')

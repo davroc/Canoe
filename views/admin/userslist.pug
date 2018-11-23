@@ -6,12 +6,21 @@ block styles
 
 block content
     main
+
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
+        script(src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+        script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+        script.
+            $(document).ready( function () {
+                $('#liste_users').DataTable();
+            } );
+    
         .row
             .col-md-10
                 p.titre Liste utilisateurs:
                 if Usr.length > 0 
                     .table-responsive
-                        table.table.table-striped.table-bordered
+                        table.table.table-striped.table-bordered(id="liste_users")
                             thead
                                 tr
                                     th Nom
@@ -29,7 +38,7 @@ block content
                                         td #{user.mail_user}
                                         td #{user.droits_user}
                                         td
-                                            a.btn.btn-primary(href="/admin/view_user/"+user.id_user) Modifier
-                                            a.btn.btn(href="/admin/del_user/"+user.id_user) Supprimer
+                                            a.btn.btn-secondary(href="/admin/view_user/"+user.id_user) Modifier
+                                            a.btn.btn-danger(href="/admin/del_user/"+user.id_user) Supprimer
                 else
                     h1 Pas d utilisateurs

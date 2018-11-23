@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 //const OraDB=require('oracledb');
 
-const dbBRM=require('./util/db_brm');
+//const dbBRM=require('./util/db_brm');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -38,13 +38,7 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const paramRoutes = require('./routes/app_params');
-const analyseRoutes = require('./routes/code_analyse');
-//dbBRM.execute('select * from pin.uniqueness_t limit 10')
-    
-// .then(res=>{console.log(res[0])})
-// .catch(err=>{console.log(err)});
-
-
+const analyseRoutes = require('./routes/analyse');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));

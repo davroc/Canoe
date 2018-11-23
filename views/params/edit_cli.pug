@@ -10,29 +10,31 @@ block content
 
 
       h1.titre Edition de Cli
-        form(METHOD="POST",ACTION="/params/cli_edit")
-          label(for='edit_cli_si') SI
-          input.form-control(type='text',name='edit_cli_si',id='edit_cli_si',value=cli_data[0].SI)
-          label(for='edit_cli_code') CLI
-          input.form-control(type='text',name='edit_cli_code',id='edit_cli_code',value=cli_data[0].CLI)
-          label(for='edit_cli_titre') Titre
-          input.form-control(type='text',name='edit_cli_titre',id='edit_cli_titre',value=cli_data[0].TITRE)
-          label(for='edit_cli_code_erreur') Code Erreur
-          input.form-control(type='text',name='edit_cli_code_erreur',id='edit_cli_erreur',value=cli_data[0].CODE_ERREUR)
-          label(for='edit_cli_famille') Famille
-          input.form-control(type='text',name='edit_cli_famille',id='edit_cli_famille',value=cli_data[0].FAMILLE)
-          label(for='edit_cli_dt_creation') Date Creation
-          input.form-control(type='text',name='edit_cli_dt_creation',id='edit_cli_dt_creation',value=cli_data[0].DATE_CREATION)
-          label(for='edit_cli_dt_cloturee') CLI
-          input.form-control(type='text',name='edit_cli_dt_cloturee',id='edit_cli_dt_cloturee',value=cli_data[0].DATE_CLOTURE)
-          label(for='edit_cli_etat') Etat
-          select.form-control(name='edit_cli_etat',id='edit_cli_etat')
-            each statu in cli_status
-              option(value=statu.lib_statut,selected=(statu.lib_statut === cli_data[0].ETAT.trim() ? true : false )) #{statu.lib_statut}
-          
-          label(for='edit_cli_desc') Descriptif
-          input.form-control(type='text',name='edit_cli_desc',id='edit_cli_desc',value=cli_data[0].DESCRIPTIF)
-          label(for='edit_cli_ent_resp') Entité Responsable
-          input.form-control(type='text',name='edit_cli_ent_resp',id='edit_cli_ent_resp',value=cli_data[0].ENTITE_RESPONSABLE)
-          label(for='edit_cli_ent_action') Entité en Action
-          input.form-control(type='text',name='edit_cli_ent_action',id='edit_cli_ent_action',value=cli_data[0].ENTITE_EN_ACTION)
+        .row
+          .col.col-md-8
+            form(METHOD="POST",ACTION="/params/cli_edit")
+              label(for='edit_cli_si') SI
+              input.form-control(type='text',name='edit_cli_si',id='edit_cli_si',value=cli_data[0].SI)
+              label(for='edit_cli_code') CLI
+              input.form-control(type='text',name='edit_cli_code',id='edit_cli_code',value=cli_data[0].CLI)
+              label(for='edit_cli_titre') Titre
+              input.form-control(type='text',name='edit_cli_titre',id='edit_cli_titre',value=cli_data[0].TITRE)
+              label(for='edit_cli_code_erreur') Code Erreur
+              input.form-control(type='text',name='edit_cli_code_erreur',id='edit_cli_erreur',value=cli_data[0].CODE_ERREUR)
+              label(for='edit_cli_famille') Famille
+              input.form-control(type='text',name='edit_cli_famille',id='edit_cli_famille',value=cli_data[0].FAMILLE)
+              label(for='edit_cli_dt_creation') Date Creation
+              input.form-control(type='text',name='edit_cli_dt_creation',id='edit_cli_dt_creation',value=cli_data[0].DATE_CREATION)
+              label(for='edit_cli_dt_cloturee') CLI
+              input.form-control(type='text',name='edit_cli_dt_cloturee',id='edit_cli_dt_cloturee',value=cli_data[0].DATE_CLOTURE)
+              label(for='edit_cli_etat') Etat
+              select.form-control(name='edit_cli_etat',id='edit_cli_etat')
+                each statu in cli_status
+                  option(value=statu.lib_statut,selected=(statu.lib_statut === cli_data[0].ETAT.trim() ? true : false )) #{statu.lib_statut}
+              
+              label(for='edit_cli_desc') Descriptif
+              input.form-control(type='text',name='edit_cli_desc',id='edit_cli_desc',value=cli_data[0].DESCRIPTIF)
+              label(for='edit_cli_ent_resp') Entité Responsable
+              input.form-control(type='text',name='edit_cli_ent_resp',id='edit_cli_ent_resp',value=cli_data[0].ENTITE_RESPONSABLE)
+              label(for='edit_cli_ent_action') Entité en Action
+              input.form-control(type='text',name='edit_cli_ent_action',id='edit_cli_ent_action',value=cli_data[0].ENTITE_EN_ACTION)

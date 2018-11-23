@@ -1,0 +1,48 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    main
+
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
+        script(src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+        script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+
+        script.
+            $(document).ready( function () {
+                $('#liste_codes').DataTable();
+            } );
+
+        .row
+            .col-md-12
+                ul.nav.nav-tabs
+                    li.nav-item
+                        a.nav-link.active(href="#GererCode",data-toggle="tab",role="tab") Gerer les Codes
+                    li.nav-item
+                        a.nav-link(href="#AjouterCode",data-toggle="tab",role="tab") Ajouter les Codes
+
+                .tab-content(id="errorCodesTabContent")
+                    .tab-pane.fade.show.active(id="GererCode", role="tabpanel", aria-labelledby="GererCode-tab")
+                        if errorCodes.length > 0 
+                            .table-responsive
+                                table#liste_codes.table.table-striped.table-bordered
+                                    thead
+                                        tr
+                                            th Code Erreur
+                                            th Description
+                                            th Modif
+                                    tbody
+                                        each code in errorCodes
+                                            tr
+                                                td #{code.ErrorCode}
+                                                td #{code.Description_ErrorCode}
+                                                td
+                                                    a.btn.btn-primary(href="/params/cli_edit/"+code.ErrorCode) Editer
+                                                    
+                        else
+                            h1 Pas de codes  
+
+                    .tab-pane.fade(id="AjouterCode", role="tabpanel", aria-labelledby="AjouterCode-tab")
