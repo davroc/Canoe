@@ -11,7 +11,17 @@ exports.getErrorCodes =(req,res,next)=>{
 
 exports.getTypos =(req,res,next)=>{
   ParamModel.getTypoList(liste_typos =>{
-    res.render('params/typos',{typos : liste_typos})
+    ParamModel.getCodesList(liste_errorcodes =>{
+      res.render('params/typos',{typos : liste_typos, errorCodes : liste_errorcodes})
+    })
+  })
+}
+
+
+// app params
+exports.getParams =(req,res,next)=>{
+  ParamModel.getParamsList(liste_params =>{
+    res.render('params/parameters',{pageTitle: 'Liste de Parametres',params : liste_params})
   })
 }
 

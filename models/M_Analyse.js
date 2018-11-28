@@ -10,7 +10,11 @@ exports.getCliList  = liste_clis => {
   }
 
   exports.getEvoAno = evo_ano =>{
-    //db.execute('')
+    db.execute('SELECT ERROR_CODE,date_format(START_COMM,"%Y-%m-%d") as dt, COUNT(EVENT_NO) as nb_tickets  FROM canoe_db.daily_data  WHERE START_COMM <= subdate(current_date,1)  GROUP BY ERROR_CODE,dt')
+    .then(res=>{
+      evo_ano(res[0]);
+    })
+    .catch(err=>{return err});
   }
 
 

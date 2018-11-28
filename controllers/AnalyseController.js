@@ -16,7 +16,8 @@ exports.getAlarmes =(req,res,next)=>{
 
 exports.getEvoAno = (req,res,next)=>{
   AnalyseModel.getEvoAno(evo_ano =>{
-    res.render('analyse/evo_ano',{ pageTitle: 'Evolution des anomalies', path: '/analyse/evo_ano'  })
+    console.log(evo_ano);
+    res.render('analyse/evo_ano',{ pageTitle: 'Evolution des anomalies', path: '/analyse/evo_ano' ,evo_ano:JSON.stringify(evo_ano) })
   });
 }
 

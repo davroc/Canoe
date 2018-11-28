@@ -3,12 +3,12 @@ extends ../layouts/layout.pug
 block styles
     link(rel="stylesheet", href="/css/forms.css")
     link(rel="stylesheet", href="/css/product.css")
+    link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
     main
 
         script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
-        script(src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
         script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
         script.
@@ -27,32 +27,46 @@ block content
                 .tab-content(id="TyposTabContent")
                     .tab-pane.fade.show.active(id="GererTypos", role="tabpanel", aria-labelledby="GereTypos-tab")
                         if typos.length > 0 
-                            .table-responsive
-                                table#liste_codes.table.table-striped.table-bordered
-                                    thead
-                                        tr
-                                            th Code Erreur
-                                            th Typologie
-                                            th Source Potentielle
-                                            th Collecte Impactee
-                                            th Responsabilité
-                                            th Requete
-                                            th Modifier
-
-                                    tbody
-                                        each typo in typos
+                            .tab-container
+                                .table-responsive
+                                    table#liste_typos.table.table-striped.table-bordered
+                                        thead
                                             tr
-                                                td #{typo.error_code}
-                                                td #{typo.libelle_typologie}
-                                                td #{typo.source_potentielle}
-                                                td #{typo.collecte_impactee}
-                                                td #{typo.responsabilite}
-                                                td #{typo.requete_id}
-                                                
-                                                td
-                                                    a.btn.btn-primary(href="/params/cli_edit/"+typo.id_typologie) Editer
+                                                th Code Erreur
+                                                th Typologie
+                                                th Source Potentielle
+                                                th Collecte Impactee
+                                                th Responsabilité
+                                                th Requete
+                                                th Modifier
+
+                                        tbody
+                                            each typo in typos
+                                                tr
+                                                    td #{typo.error_code}
+                                                    td #{typo.libelle_typologie}
+                                                    td #{typo.source_potentielle}
+                                                    td #{typo.collecte_impactee}
+                                                    td #{typo.responsabilite}
+                                                    td #{typo.requete_id}
                                                     
+                                                    td
+                                                        a.btn.btn-primary(href="/params/typo_edit/"+typo.id_typologie) Editer
+                                                        
                         else
                             h1 Pas de codes  
 
                     .tab-pane.fade(id="AjouterTypo", role="tabpanel", aria-labelledby="AjouterTypo-tab")
+                        .tab-container
+                            H3 Ajouter une typologie
+                            label(for "newTypo_CodeList") Code Erreur lié:
+                            select.form-control(type="text",name="newTypo_CodeList",id="newTypo_CodeList")
+                                option(value="selectionner") Selectionner
+                                for code in errorCodes
+                                    option(value=code.ErrorCode) #{code.ErrorCode}
+
+                            label(for "newTypo_Typologie") Typologie:
+                            input.form-control(type="text",name="newTypo_Typologie",id="newTypo_Typologie")
+                            label(for "newTypo_Source") Source Potentielle:
+                            textarea.form-control(name="newTypo_Source",id="newTypo_Source")
+                            input(type="submit" name="addCode" value="Ajouter le code")

@@ -31,5 +31,9 @@ router.get('/cli_edit/:cli', paramController.editCli);
 router.get('/cli_add',paramController.addCli);
 
 
+// app params
+router.get('/parametres',paramController.getParams)
+
+
 //exports.routes = router;
 module.exports = router;

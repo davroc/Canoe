@@ -23,6 +23,14 @@ exports.getTypoList = liste_typos =>{
  .catch(err=>{return err});
 }
 
+//app params
+exports.getParamsList = liste_params =>{
+  db.execute('select * from conf_bios_params')
+  .then(res=>{
+    liste_params(res[0]);
+  })
+ .catch(err=>{return err});  
+}
 
 //tickets
 
