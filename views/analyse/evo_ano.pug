@@ -1,0 +1,47 @@
+extends ../layouts/layout.pug
+
+block styles
+  link(rel="stylesheet", href="/css/cni.css")
+  link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+
+block content
+    main
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js')      
+      script(src="https://code.jquery.com/jquery-3.2.1.min.js" )     
+      script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+      script.
+          //- $(document).ready( function () {
+          //-     $('#liste_related_clis').DataTable();
+          //-     $('#liste_related_alarms').DataTable();
+          //-     $('#liste_typos').DataTable();
+          //- } );
+
+      .container-fluid
+        if evo_ano.length > 0
+        .row.div_code_selecteur
+          .col
+              .group-item
+                p.group-item_title Evolution des Tickets
+                canvas(id="myChart")
+                  script. 
+                    var evo_ano = !{evo_ano}
+                    var lib=[];
+                    var data=[];
+                    for (var { code,dt,nb_tickets } of evo_ano)
+                    {
+                     -lib.push(dt);
+                     -data.push(nb_tickets);
+                    }
+                    console.log(dt);
+                    //- var myChart = new Chart(document.getElementById("myChart").getContext("2d"),{
+                    //-     type:'line',
+                    //-     data:{
+                    //-       labels:lib,
+                    //-       datasets:[{
+                    //-         label:'Nb Tickets',
+                    //-         data:data,
+                    //-         backgroundColor:['rgba(45,110,132,0.2)']
+                    //-       }]
+                    //-     }
+                    //- })
+

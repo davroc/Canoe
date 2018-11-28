@@ -1,0 +1,77 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    main
+
+        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
+        script(src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+        script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+
+        script.
+            $(document).ready( function () {
+                $('#liste_typos').DataTable();
+            } );
+
+        .row
+            .col-md-12
+                ul.nav.nav-tabs
+                    li.nav-item
+                        a.nav-link.active(href="#InAppParams",data-toggle="tab",role="tab") Parametres InApp
+                    li.nav-item
+                        a.nav-link(href="#ReportParams",data-toggle="tab",role="tab") Parametres Reporting
+
+                .tab-content(id="ParamsTabContent")
+                    .tab-pane.fade.show.active(id="InAppParams", role="tabpanel", aria-labelledby="InAppParams-tab")
+                        if params.length > 0 
+                            .tab-container
+                                .table-responsive
+                                    table#liste_codes.table.table-striped.table-bordered
+                                        thead
+                                            tr
+                                                th Parametre
+                                                th Description
+                                                th Valeur
+                                                th MAJ
+                                        tbody
+                                            each param in params
+                                              if param.portee_param == 'inApp'
+                                                tr
+                                                    td #{param.param}
+                                                    td #{param.commentaire}
+                                                    td 
+                                                      input(type="text",value=param.value)
+                                                    td
+                                                        a.btn.btn-primary(href="/params/typo_edit/"+param.id_param) Editer
+                                                        
+                        else
+                          h1 Pas de parametres  
+
+                    .tab-pane.fade(id="ReportParams", role="tabpanel", aria-labelledby="ReportParams-tab")
+                      if params.length > 0 
+                        .tab-container
+                            .table-responsive
+                                table#liste_codes.table.table-striped.table-bordered
+                                    thead
+                                        tr
+                                            th Parametre
+                                            th Description
+                                            th Valeur
+                                            th MAJ
+                                    tbody
+                                        each param in params
+                                          if param.portee_param == 'reporting'
+                                            tr
+                                                td #{param.param}
+                                                td #{param.commentaire}
+                                                td 
+                                                  input(type="text",value=param.value)
+                                                td
+                                                    a.btn.btn-primary(href="/params/typo_edit/"+param.id_param) Editer
+                                                    
+                      else
+                        h1 Pas de parametres  
+
