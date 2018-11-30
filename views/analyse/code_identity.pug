@@ -7,30 +7,31 @@ block styles
 block content
     main
       script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js')
-      
-      script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
-      
       script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+
       script.
           $(document).ready( function () {
               $('#liste_related_clis').DataTable();
               $('#liste_related_alarms').DataTable();
               $('#liste_typos').DataTable();
+              $('#get_code_cni').click(function(){
+                const c=$('#errCode').val();
+                //window.location("cni/"+c);
+                $(location).attr('href',"/analyse/cni/"+c);
+              })
           } );
 
       .container-fluid
         if code_list.length > 0
         .row.div_code_selecteur
           .col
-            form(method='post',target='/cni')
-              span Selectionner le code:
-              select.code_selecteur(name='errCode',id='errCode')
-                each code in code_list
-                  option(value=code.ErrorCode,selected=(code.ErrorCode === SelectedCode ? true : false)) #{code.ErrorCode}
-              input.btn.btn-primary(type='submit',value='Afficher')
+            span Selectionner le code:
+            select.code_selecteur(name='errCode',id='errCode')
+              each code in code_list
+                option(value=code.ErrorCode,selected=(code.ErrorCode === SelectedCode ? true : false)) #{code.ErrorCode}
+            input.btn.btn-default(type='button',value='Afficher',id='get_code_cni')
 
         if SelectedCode
-          h2 Code #{SelectedCode}
           .row
             .col-md-6
               .group-item
@@ -39,7 +40,8 @@ block content
                     table.table
                       tr
                         td
-                          b #{codeDetail[0].ErrorCode}
+                          h3
+                            span.badge.badge-primary #{codeDetail[0].ErrorCode}
                         td #{codeDetail[0].Description_ErrorCode}
                   if Typos.length > 0
                     table#liste_Typos.table.table-striped.table-bordered

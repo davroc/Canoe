@@ -8,7 +8,6 @@ block styles
 block content
     main
 
-        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
         script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
         script.
@@ -28,20 +27,22 @@ block content
                     .tab-pane.fade.show.active(id="GererCode", role="tabpanel", aria-labelledby="GererCode-tab")
                         if errorCodes.length > 0 
                             .tab-container
-                                .table-responsive
-                                    table#liste_codes.table.table-striped.table-bordered
-                                        thead
-                                            tr
-                                                th Code Erreur
-                                                th Description
-                                                th Modif
-                                        tbody
-                                            each code in errorCodes
-                                                tr
-                                                    td #{code.ErrorCode}
-                                                    td #{code.Description_ErrorCode}
-                                                    td
-                                                        a.btn.btn-primary(href="/params/cli_edit/"+code.ErrorCode) Editer
+                                .row
+                                    .col-md-8
+                                        .table-responsive
+                                            table#liste_codes.table.table-striped.table-bordered
+                                                thead
+                                                    tr
+                                                        th Code Erreur
+                                                        th Description
+                                                        th Modif
+                                                tbody
+                                                    each code in errorCodes
+                                                        tr
+                                                            td #{code.ErrorCode}
+                                                            td #{code.Description_ErrorCode}
+                                                            td
+                                                                a.btn.btn-primary(href="/params/code_edit/"+code.ErrorCode) Editer
                                                     
                         else
                             h1 Pas de codes  
@@ -50,8 +51,8 @@ block content
                         .tab-container
                             form(action="",method="post")
                                 H3 Ajouter un code d erreur
-                                label.form-control(for "newCode_Code") Code:
+                                label(for "newCode_Code") Code:
                                 input.form-control(type="text",name="newCode_Code",id="newCode_Code")
-                                label.form-control(for "newCode_Problematique") Problématique:
+                                label(for "newCode_Problematique") Problématique:
                                 textarea.form-control(name="newCode_Problematique",id="newCode_Problematique")
                                 input(type="submit" name="addCode" value="Ajouter le code")

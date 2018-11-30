@@ -9,8 +9,8 @@ const router = express.Router();
 router.get('/liste_clis', analyseCOntroller.getCliList);
 router.get('/alarmes', analyseCOntroller.getAlarmes);
 router.get('/evo_ano', analyseCOntroller.getEvoAno);
+router.get('/cni/:code',analyseCOntroller.getErrCodeDetail);
 router.get('/cni', analyseCOntroller.getInfoAno);
-router.post('/cni', analyseCOntroller.getErrCodeDetail);
 
 
 

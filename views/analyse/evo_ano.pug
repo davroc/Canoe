@@ -2,7 +2,8 @@ extends ../layouts/layout.pug
 
 block styles
   link(rel="stylesheet", href="/css/cni.css")
-  link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+  link(rel="stylesheet", href="/css/evo_codes.css")
+  link(rel="stylesheet",href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
 
 block content
     main
@@ -20,28 +21,80 @@ block content
         if evo_ano.length > 0
         .row.div_code_selecteur
           .col
-              .group-item
+              #EvoAnoChartContainer.group-item
                 p.group-item_title Evolution des Tickets
-                canvas(id="myChart")
+                  select#code_selecteur
+                  
+                canvas(id="EvoAno_Chart")
                   script. 
+                    codeSelecteur = document.getElementById('code_selecteur');                 
                     var evo_ano = !{evo_ano}
-                    var lib=[];
-                    var data=[];
-                    for (var { code,dt,nb_tickets } of evo_ano)
-                    {
-                     -lib.push(dt);
-                     -data.push(nb_tickets);
+                    var code=[];
+                    var reformated_data=[];
+                    var x = 0;
+
+                    for (var { ERROR_CODE } of evo_ano)
+                    {                
+                    -code.push(ERROR_CODE);
+
                     }
-                    console.log(dt);
-                    //- var myChart = new Chart(document.getElementById("myChart").getContext("2d"),{
-                    //-     type:'line',
-                    //-     data:{
-                    //-       labels:lib,
-                    //-       datasets:[{
-                    //-         label:'Nb Tickets',
-                    //-         data:data,
-                    //-         backgroundColor:['rgba(45,110,132,0.2)']
-                    //-       }]
-                    //-     }
-                    //- })
+                    let code_list = [...new Set(code)];
+                    //- -console.log(code_list);
+
+                    for (var code of code_list)
+                    {
+                      
+                      codeSelecteur.options[codeSelecteur.options.length] = new Option(code, code);
+                      var dt=[];
+                      var data=[];
+
+                      for (var d of evo_ano)
+                      {
+                        if (d.ERROR_CODE == code )
+                        {
+                          dt.push(d.dt);
+                          data.push(d.nb_tickets);
+                        }
+                      }
+                      reformated_data.push({code: code,labels:dt,data:data})
+                    }
+                    -console.log(reformated_data);
+
+
+
+                     var myChart = new Chart(document.getElementById("EvoAno_Chart").getContext("2d"),{
+                       type:'line',
+                       data:{
+                        labels:reformated_data[0].labels,
+                        datasets:[{
+                          label:'Nb Tickets '+reformated_data[0].code,
+                          data:reformated_data[0].data,
+                          backgroundColor:['rgba(45,110,132,0.2)']
+                          }]
+                        }
+                     })
+
+                     console.log(myChart.data);
+
+                     codeSelecteur.addEventListener("change", function(myChart){
+                        $('#EvoAno_Chart').remove();
+                        $("#EvoAnoChartContainer").append('<canvas id="EvoAno_Chart"></canvas')
+                         let selected_code_data = reformated_data.filter(data => data.code == codeSelecteur.value);
+  
+                          var myChart = new Chart(document.getElementById("EvoAno_Chart").getContext("2d"),{
+                            type:'line',
+                            data:{
+                              labels:selected_code_data[0].labels,
+                              datasets:[{
+                                label:'Nb Tickets '+selected_code_data[0].code,
+                                data:selected_code_data[0].data,
+                                backgroundColor:['rgba(45,110,132,0.2)']
+                                }]
+                              }
+                          })
+                                                   
+
+                     });
+
+                     
 

@@ -12,6 +12,29 @@ exports.getCodesList = liste_errorCodes =>{
  .catch(err=>{return err});
 }
 
+exports.getCode = (id_code,data_code)=>{
+  db.execute('select * from errorcodes where ErrorCode ='+id_code)
+  .then(res=>{
+    data_code(res[0]);
+   // console.log(liste_clis);
+  })
+ .catch(err=>{return err});
+}
+
+exports.updateCode = (updated_code_data,updated_code)=>{
+  const code_id=updated_code_data.edit_code_id;
+  const desc_code = updated_code_data.edit_code_description;
+
+  const sql='update errorcodes set Description_ErrorCode="'+ desc_code +'" where ErrorCode = "'+ code_id +'"  ';
+  console.log(sql);
+  db.execute(sql)
+  .then(res=>{
+    console.log(res);
+    updated_code(res);
+  })
+ .catch(err=>{return err});
+}
+
 //typologies
 
 exports.getTypoList = liste_typos =>{
@@ -19,6 +42,31 @@ exports.getTypoList = liste_typos =>{
   .then(res=>{
     liste_typos(res[0]);
    // console.log(liste_clis);
+  })
+ .catch(err=>{return err});
+}
+
+exports.getTypo = (id_typo,data_typo)=>{
+  db.execute('select * from bios_typologies where id_typologie ='+id_typo)
+  .then(res=>{
+    data_typo(res[0]);
+   // console.log(liste_clis);
+  })
+ .catch(err=>{return err});
+}
+
+exports.updateTypo = (updated_typo_data,updated_typo)=>{
+  const typo_id=updated_typo_data.typo_id;
+  const lib_typo = updated_typo_data.edit_typo_libelle;
+  const source_typo = updated_typo_data.edit_typo_source_potentielle;
+  const collecte = updated_typo_data.edit_typo_collecte;
+  const resp = updated_typo_data.edit_typo_resp;
+
+  const sql='update bios_typologies set libelle_typologie="'+ lib_typo +'", source_potentielle="'+ source_typo +'" , collecte_impactee="'+ collecte +'" ,responsabilite="'+ resp +'" where id_typologie = '+ typo_id +'  ';
+  db.execute(sql)
+  .then(res=>{
+    console.log(res);
+    updated_typo(res);
   })
  .catch(err=>{return err});
 }

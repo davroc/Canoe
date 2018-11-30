@@ -1,0 +1,30 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+
+    .modal.fade(id="EditCodeModal",tabindex="-1", role="dialog")
+      .modal-dialog.modal-lg(role="document")
+        .modal-content
+          .modal-header
+            h5.modal-title Editer le Code d'Erreur
+            button.close(type="button",data-dismiss="modal",aria-label="Close")
+              span(aria-hidden="true") &times
+          .modal-body
+            form(method="post",action="/params/code_edit")
+              .row
+              .col-md-12
+                label(for="edit_code_id") Code Erreur
+                input.form-control(type="text" name="display_code_id",disabled="disabled",value=code_data[0].ErrorCode) 
+                input(type="hidden",name="edit_code_id",value=code_data[0].ErrorCode) 
+                label(for="edit_code_description") Description            
+                textarea.form-control( name="edit_code_description") #{code_data[0].Description_ErrorCode}
+                br
+                br
+                input.btn.btn-primary.submit_button(type="submit" ,id="submit_maj_code",name="submit_maj_code",value="Mettre a jour" )
+                input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
+    script.
+      $('#EditCodeModal').modal('show')
+      $('#submit_maj_code').click(function(){
+        $('#EditCodeModal').modal('hide')
+      })

@@ -13,9 +13,13 @@ const router = express.Router();
 
 // codes list
 router.get('/errorcodes', paramController.getErrorCodes);
+router.get('/code_edit/:code', paramController.editCode);
+router.post('/code_edit',paramController.postEditCode);
 
 //typologies
 router.get('/typos', paramController.getTypos);
+router.get('/typo_edit/:typo',paramController.editTypo);
+router.post('/typo_edit',paramController.postEditTypo);
 
 
 //TICKETS

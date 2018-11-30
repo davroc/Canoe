@@ -19,6 +19,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "jquery": "^3.3.1",
+    "material-components-web": "^0.41.1",
     "mysql2": "^1.6.3",
     "node": "^8.10.0",
     "oracledb": "^3.0.0",

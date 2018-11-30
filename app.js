@@ -2,16 +2,10 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const session = require ('express-session');
+//const session = require ('express-session');
 
 //const OraDB=require('oracledb');
-
 //const dbBRM=require('./util/db_brm');
-const app = express();
-
-app.set('view engine', 'pug');
-app.set('views', 'views');
-
 // OraDB.getConnection({
 //     user: 'u122495',
 //     password:'T0matito21',
@@ -36,6 +30,11 @@ app.set('views', 'views');
 // });
 
 
+
+const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const paramRoutes = require('./routes/app_params');

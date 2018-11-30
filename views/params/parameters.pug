@@ -3,18 +3,26 @@ extends ../layouts/layout.pug
 block styles
     link(rel="stylesheet", href="/css/forms.css")
     link(rel="stylesheet", href="/css/product.css")
+    link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
     main
 
-        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
-        script(src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
         script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
         script.
             $(document).ready( function () {
                 $('#liste_typos').DataTable();
-            } );
+             
+                $('.maj_param').click(function(){
+                
+                const param_id=$(this).parent().siblings(2).children(1)[0].value;
+                const param_newValue=$(this).parent().siblings(2).children(1)[1].value;
+
+                console.log(param_id);
+                console.log(param_newValue);
+            })
+            });
 
         .row
             .col-md-12
@@ -28,24 +36,27 @@ block content
                     .tab-pane.fade.show.active(id="InAppParams", role="tabpanel", aria-labelledby="InAppParams-tab")
                         if params.length > 0 
                             .tab-container
-                                .table-responsive
-                                    table#liste_codes.table.table-striped.table-bordered
-                                        thead
-                                            tr
-                                                th Parametre
-                                                th Description
-                                                th Valeur
-                                                th MAJ
-                                        tbody
-                                            each param in params
-                                              if param.portee_param == 'inApp'
-                                                tr
-                                                    td #{param.param}
-                                                    td #{param.commentaire}
-                                                    td 
-                                                      input(type="text",value=param.value)
-                                                    td
-                                                        a.btn.btn-primary(href="/params/typo_edit/"+param.id_param) Editer
+                                .row
+                                    .col-md-8
+                                        .table-responsive
+                                            table#liste_codes.table.table-striped.table-bordered
+                                                thead
+                                                    tr
+                                                        th Parametre
+                                                        th Description
+                                                        th Valeur
+                                                        th MAJ
+                                                tbody
+                                                each param in params
+                                                    if param.portee_param == 'inApp'
+                                                        tr
+                                                            td #{param.param}
+                                                            td #{param.commentaire}
+                                                            td 
+                                                                input(type="hidden",value=param.id_param)
+                                                                input(type="text",value=param.value)
+                                                            td
+                                                                a.maj_param.btn.btn-primary Mettre a jour
                                                         
                         else
                           h1 Pas de parametres  
@@ -53,24 +64,27 @@ block content
                     .tab-pane.fade(id="ReportParams", role="tabpanel", aria-labelledby="ReportParams-tab")
                       if params.length > 0 
                         .tab-container
-                            .table-responsive
-                                table#liste_codes.table.table-striped.table-bordered
-                                    thead
-                                        tr
-                                            th Parametre
-                                            th Description
-                                            th Valeur
-                                            th MAJ
-                                    tbody
-                                        each param in params
-                                          if param.portee_param == 'reporting'
-                                            tr
-                                                td #{param.param}
-                                                td #{param.commentaire}
-                                                td 
-                                                  input(type="text",value=param.value)
-                                                td
-                                                    a.btn.btn-primary(href="/params/typo_edit/"+param.id_param) Editer
+                            .row
+                                .col-md-8
+                                    .table-responsive
+                                        table#liste_codes.table.table-striped.table-bordered
+                                            thead
+                                                tr
+                                                    th Parametre
+                                                    th Description
+                                                    th Valeur
+                                                    th MAJ
+                                            tbody
+                                                each param in params
+                                                    if param.portee_param == 'reporting'
+                                                        tr
+                                                            td #{param.param}
+                                                            td #{param.commentaire}
+                                                            td 
+                                                                input(type="hidden",value=param.id_param)
+                                                                input(type="text",value=param.value)
+                                                            td
+                                                                a.maj_param.btn.btn-primary Mettre a jour
                                                     
                       else
                         h1 Pas de parametres  

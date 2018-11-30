@@ -30,7 +30,10 @@ exports.getInfoAno = (req,res,next)=>{
 }
 
 exports.getErrCodeDetail=(req,res,next)=>{
-  const ErrCode=req.body.errCode;
+  //const ErrCode=req.body.errCode;
+  const ErrCode=req.params.code;
+
+  console.log(ErrCode);
 
   AnalyseModel.getListeErrCodes(codes =>{
     AnalyseModel.getCodeEvo(ErrCode,codeEvo=>{

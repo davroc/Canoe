@@ -7,6 +7,31 @@ exports.getErrorCodes =(req,res,next)=>{
   })
 }
 
+exports.editCode =(req,res,next)=>{
+  const id_code = req.params.code;
+  console.log(id_code);
+  ParamModel.getCode(id_code,code_data =>{
+    console.log(code_data);
+    res.render('params/edit_code',{pageTitle:'Edition du Code d\'erreur',code_data:code_data})
+  })
+}
+
+exports.postEditCode = (req,res,next)=>{
+  const editCodeData = req.body;
+ // console.log(editTypoData);
+  ParamModel.updateCode(editCodeData,updatedcode=>{
+    console.log(updatedcode[0].affectedRows);
+    if(updatedcode[0].affectedRows >0)
+    {
+      res.render('params/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/errorcodes',Message:'Le Code d erreur a été correctement modifié !'})
+    }
+    else
+    {
+      res.render('params/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/errorcodes',Message:'Le Code d erreur n\'a pas pu être modifié !'})
+    }
+  })
+}
+
 //typologies
 
 exports.getTypos =(req,res,next)=>{
@@ -17,6 +42,31 @@ exports.getTypos =(req,res,next)=>{
   })
 }
 
+exports.editTypo =(req,res,next)=>{
+  const id_typo = req.params.typo;
+  console.log(id_typo);
+  ParamModel.getTypo(id_typo,typo_data =>{
+    //console.log(typo_data);
+    res.render('params/edit_typo',{pageTitle:'Edition de la typologie',typo_data:typo_data})
+  })
+}
+
+exports.postEditTypo = (req,res,next)=>{
+  const editTypoData = req.body;
+ // console.log(editTypoData);
+  ParamModel.updateTypo(editTypoData,updatedtypo=>{
+    console.log(updatedtypo);
+    if (updatedtypo[0].affectedRows > 0)
+    {
+      res.render('params/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/typos',Message:'La Typologie a été correctement modifiée !'})
+    }
+    else
+    {
+      res.render('params/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/typos',Message:'La Typologie n\'a pas pu etre modifiée !'})
+    }
+    
+  })
+}
 
 // app params
 exports.getParams =(req,res,next)=>{

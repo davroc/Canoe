@@ -1,0 +1,40 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+
+    .modal.fade(id="EditTypoModal",tabindex="-1", role="dialog")
+      .modal-dialog.modal-lg(role="document")
+        .modal-content
+          .modal-header
+            h5.modal-title Editer la typologie
+            button.close(type="button",data-dismiss="modal",aria-label="Close")
+              span(aria-hidden="true") &times
+          .modal-body
+            form(method="post",action="/params/typo_edit")
+              .row
+              .col-md-12
+                label(for="edit_typo_libelle") Libelle
+                input(type="hidden" name="typo_id",value=typo_data[0].id_typologie)
+                input.form-control(type="text" name="edit_typo_libelle",value=typo_data[0].libelle_typologie)  
+                label(for="edit_typo_source_potentielle") Source Potentielle             
+                textarea.form-control( name="edit_typo_source_potentielle") #{typo_data[0].source_potentielle}
+                label(for="edit_typo_collecte") Collecte Impactée      
+                input.form-control(type="text" name="edit_typo_collecte",value=typo_data[0].collecte_impactee)
+                label(for="edit_typo_resp") Responsabilité      
+                input.form-control(type="text" name="edit_typo_resp",value=typo_data[0].responsabilite)
+                br
+                br
+                input.btn.btn-primary.submit_button(type="submit" ,id="submit_edit_typo",name="submit_edit_typo",value="Mettre a jour" )
+                input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
+    script.
+      $('#EditTypoModal').modal('show')
+      $('#submit_edit_typo').click(function(){
+        $('#EditTypoModal').modal('hide')
+      })
+
+
+
+
+
+

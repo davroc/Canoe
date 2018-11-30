@@ -1,0 +1,50 @@
+textarea
+{
+  height:10em;
+}
+
+label
+{
+  font-weight: 800;
+  color:rgb(45,110,132);
+  margin:1.5em 0.6em 0 0;
+}
+
+
+.modal-header
+{
+  background:rgb(45,110,132);
+  color:white;
+}
+
+.modal-header.success-modal
+{
+  background:rgb(25,200,166);
+  color:white
+}
+.modal-body.success-modal
+{
+  color:rgb(4,174,158);
+  font-size:1.2em;
+}
+.btn-modal-success
+{
+  background:rgb(25,200,166);
+  color:white;
+}
+
+.modal-header.KO-modal
+{
+  background:red;
+  color:white
+}
+.modal-body.KO-modal
+{
+  color:red;
+  font-size:1.2em;
+}
+.btn-modal-KO
+{
+  background:red;
+  color:white;
+}

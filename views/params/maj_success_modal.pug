@@ -1,0 +1,22 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+
+    .modal.fade(id="SuccessModifParamModal",tabindex="-1", role="dialog")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header.success-modal
+            i.material-icons done_outline
+            h5.modal-title Succès de la mise a jour!!
+              input(type="hidden", id ="redir" ,value = returnPath)
+          .modal-body.success-modal
+            span.success #{Message}
+            
+          .modal-footer
+            input.btn.btn-modal-success(type="button",id="btn_confirm",value="OK")
+    script.
+      $('#SuccessModifParamModal').modal('show')
+      $('#btn_confirm').click(function(){
+        $(location).attr('href',$('#redir').val());
+      })
