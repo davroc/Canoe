@@ -7,7 +7,7 @@ block styles
 
 block content
     main
-    
+
         script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
         script.
@@ -17,40 +17,57 @@ block content
 
         .row
             .col-md-12
-                h1.titre Liste CLIs:
-                if Clis.length > 0 
-                    .table-responsive
-                        table#liste_clis.table.table-striped.table-bordered
-                            thead
-                                tr
-                                    th SI
-                                    th CLI
-                                    th Titre
-                                    th Code Erreur
-                                    th Famille
-                                    th Creation
-                                    th Fermeture
-                                    th Etat
-                                    th Descriptif
-                                    th Entite responsable
-                                    th Entite en action
-                                    th Modif
-                            tbody
-                                each cli in Clis
-                                    tr
-                                        td #{cli.SI}
-                                        td #{cli.CLI}
-                                        td #{cli.TITRE}
-                                        td #{cli.CODE_ERREUR}
-                                        td #{cli.FAMILLE}
-                                        td #{cli.DATE_CREATION}
-                                        td #{cli.DATE_CLOTURE}
-                                        td #{cli.ETAT}
-                                        td #{cli.DESCRIPTIF}
-                                        td #{cli.ENTITE_RESPONSABLE}                                      
-                                        td #{cli.ENTITE_EN_ACTION}                                      
-                                        td
-                                            a.btn.btn-primary(href="/params/cli_edit/"+cli.id_cli) Editer
-                                            
-                else
-                    h1 Pas de tickets      
+                ul.nav.nav-tabs
+                    li.nav-item
+                        a.nav-link.active(href="#GererIncidents",data-toggle="tab",role="tab") Gerer les Incidents
+                    li.nav-item
+                        a.nav-link(href="#AjouterIncident",data-toggle="tab",role="tab") Ajouter un Incident
+
+                .tab-content(id="IncidentsTabContent")
+                    .tab-pane.fade.show.active(id="GererIncidents", role="tabpanel", aria-labelledby="GererIncidents-tab")
+                        if Clis.length > 0 
+                            .table-responsive
+                                table#liste_clis.table.table-striped.table-bordered
+                                    thead
+                                        tr
+                                            th SI
+                                            th CLI
+                                            th Titre
+                                            th Code Erreur
+                                            th Creation
+                                            th Fermeture
+                                            th Etat
+                                            th Descriptif
+                                            th Entite responsable
+                                            th Entite en action
+                                            th Modif
+                                    tbody
+                                        each cli in Clis
+                                            tr
+                                                td #{cli.SI}
+                                                td #{cli.CLI}
+                                                td #{cli.TITRE}
+                                                td #{cli.CODE_ERREUR}
+                                                td #{cli.DATE_CREATION}
+                                                td #{cli.DATE_CLOTURE}
+                                                td #{cli.ETAT}
+                                                td #{cli.DESCRIPTIF}
+                                                td #{cli.ENTITE_RESPONSABLE}                                      
+                                                td #{cli.ENTITE_EN_ACTION}                                      
+                                                td
+                                                    a.btn.btn-outline-primary(href="/params/cli_edit/"+cli.CLI) Editer
+                                                    
+                        else
+                            h1 Pas de tickets      
+                    .tab-pane.fade(id="AjouterIncident", role="tabpanel", aria-labelledby="AjouterIncident-tab")
+                        form.product-form(action="/admin/addcli", method="POST")
+                            .form-control
+                                label(for="prenom_new_user") Prenom
+                                input(type="text", name="prenom_new_user")#prenom_new_user
+                                label(for="nom_new_user") Nom
+                                input(type="text", name="nom_new_user")#nom_new_user
+                                label(for="login_new_user") Login
+                                input(type="text", name="login_new_user")#login_new_user
+                                label(for="mail_new_user") Mail
+                                input(type="text", name="mail_new_user")#mail_new_user
+                            button.btn(type="submit") Ajouter CLI

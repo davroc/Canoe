@@ -26,9 +26,9 @@ router.post('/typo_edit',paramController.postEditTypo);
 
 // liste de tickets 
 router.get('/clis', paramController.getCliList);
-
 // edition de ticket
 router.get('/cli_edit/:cli', paramController.editCli);
+router.post('/cli_edit', paramController.postEditCli);
 
 //ajout de ticket
 // param list

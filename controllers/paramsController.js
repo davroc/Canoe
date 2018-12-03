@@ -86,15 +86,35 @@ exports.getCliList =  (req, res, next) => {
 exports.editCli = (req, res, next) => {
 
   const id_cli=req.params.cli;
-  //console.log(id_cli);
+ // console.log(id_cli);
   ParamModel.getCliDetail(id_cli,cli_data =>{
       ParamModel.getCliStatusList(liste_status=>{
-        console.log(cli_data);
-        res.render('params/edit_cli', { pageTitle: 'Edition de ticket', path: '/params/edit_cli' ,cli_data:cli_data,cli_status:liste_status}); 
+        ParamModel.getRespList(liste_resp=>{
+          console.log(liste_resp);
+          res.render('params/edit_incident', { pageTitle: 'Edition de ticket', path: '/params/edit_incident' ,cli_data:cli_data,liste_status:liste_status,liste_resp:liste_resp}); 
+        })
+        
       })
     
   })  
 };
+
+exports.postEditCli = (req,res,next)=>{
+  const editCliData = req.body;
+ // console.log(editTypoData);
+  ParamModel.updateCli(editCliData,updatedcli=>{
+    console.log(updatedcli.affectedRows);
+    if (updatedcli[0].affectedRows > 0)
+    {
+      res.render('params/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/clis',Message:'L\'incident a été correctement modifié !'})
+    }
+    else
+    {
+      res.render('params/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/clis',Message:'L\'incident  n\'a pas pu etre modifié !'})
+    }
+    
+  })
+}
 
 exports.addCli =  (req, res, next) => {
 

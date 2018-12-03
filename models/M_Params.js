@@ -92,15 +92,33 @@ exports.getCliList  = liste_clis => {
   }
 
   exports.getCliDetail = (id_cli,cli_data) =>{
-    const sql='SELECT * from cli where id_cli='+id_cli;
+    const sql='SELECT CLI,TITRE,CODE_ERREUR,DATE_FORMAT(DATE_CREATION,"%Y-%m-%d") as DATE_CREATION,DATE_FORMAT(DATE_CLOTURE,"%Y-%m-%d") as DATE_CLOTURE,ETAT,DESCRIPTIF,ENTITE_RESPONSABLE,ENTITE_EN_ACTION from cli where CLI="'+id_cli+'"';
     db.execute(sql)
      .then(res=>{
        cli_data(res[0]);
-       //console.log(res[0]);
      })
     .catch(err=>{return err});
   }
 
+  exports.updateCli = (updated_cli_data,updated_cli)=>{
+    console.log(updated_cli_data);
+    const cli_id=updated_cli_data.cli_id;
+    const titre=updated_cli_data.edit_incident_titre;
+    const creation=updated_cli_data.edit_incident_dt_creation;
+    const cloture=updated_cli_data.edit_incident_dt_cloture;
+    const desc=updated_cli_data.edit_incident_desc;
+    const resp=updated_cli_data.edit_incident_resp;
+    const action = updated_cli_data.edit_incident_act;
+    const etat= updated_cli_data.edit_incident_etat;
+
+    const sql='update cli set TITRE="'+ titre +'", DATE_CREATION="'+ creation +'", DATE_CLOTURE="'+ cloture +'", ETAT="'+ etat +'" , DESCRIPTIF="'+ desc +'", ENTITE_RESPONSABLE="'+ resp +'", ENTITE_EN_ACTION="'+ action  +'" where CLI = "'+ cli_id +'"';
+    db.execute(sql)
+    .then(res=>{
+      updated_cli(res[0]);
+    })
+   .catch(err=>{return err});
+   // console.log(sql); 
+  }
   exports.getCliStatusList =(cb)=>
   {
     db.execute('SELECT * from conf_bios_status_incidents')
@@ -109,5 +127,15 @@ exports.getCliList  = liste_clis => {
         //console.log(res[0]);
       })
       .catch(err=>{return err});
+  }
+
+  exports.getRespList=(cb)=>
+  {
+    db.execute('SELECT * from responsabilites')
+      .then(res=>{
+        cb(res[0]);
+        //console.log(res[0]);
+      })
+      .catch(err=>{return err});    
   }
 
