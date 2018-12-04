@@ -40,7 +40,6 @@ main {
 
 .header {
   width: 100%;
-  height: 5rem;
   font-size:1.2rem;
   padding: 0 1.5rem;
 }
@@ -57,10 +56,20 @@ th
 
 .navbar
 {
-  font-size:1.3em;
+  font-size:18px;
 }
 
 .tab-container
 {
   margin-top:3em;
+}
+
+.nav.nav-tabs
+{
+  border-bottom:1px solid rgb(45,110,132);
+}
+
+a.nav-link.active
+{
+  border:1px solid rgb(45,110,132);
 }

@@ -2,7 +2,6 @@ extends ../layouts/layout.pug
 
 block styles
     link(rel="stylesheet", href="/css/forms.css")
-    link(rel="stylesheet", href="/css/product.css")
     link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
@@ -84,7 +83,7 @@ block content
                                                                 input(type="hidden",value=param.id_param)
                                                                 input(type="text",value=param.value)
                                                             td
-                                                                a.maj_param.btn.btn-outline-primary Mettre a jour
+                                                                a.btn.btn-outline-primary.maj_param Mettre a jour
                                                     
                       else
                         h1 Pas de parametres  

@@ -114,7 +114,7 @@ exports.getCliList  = liste_clis => {
     const sql='update cli set TITRE="'+ titre +'", DATE_CREATION="'+ creation +'", DATE_CLOTURE="'+ cloture +'", ETAT="'+ etat +'" , DESCRIPTIF="'+ desc +'", ENTITE_RESPONSABLE="'+ resp +'", ENTITE_EN_ACTION="'+ action  +'" where CLI = "'+ cli_id +'"';
     db.execute(sql)
     .then(res=>{
-      updated_cli(res[0]);
+      updated_cli(res);
     })
    .catch(err=>{return err});
    // console.log(sql); 
@@ -138,4 +138,3 @@ exports.getCliList  = liste_clis => {
       })
       .catch(err=>{return err});    
   }
-

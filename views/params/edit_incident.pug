@@ -12,36 +12,50 @@ block styles
               span(aria-hidden="true") &times
           .modal-body
             form(method="post",action="/params/cli_edit")
-              .row
-              .col-md-12
-                label(for="edit_incident") Incident
-                input(type="hidden" name="cli_id",value=cli_data[0].CLI)
-                input.form-control(type="text" name="edit_incident",disabled="disabled",value=cli_data[0].CLI)  
-                label(for="edit_incident_titre") Titre             
-                input.form-control( name="edit_incident_titre",value=cli_data[0].TITRE)
-                label(for="edit_incident_dt_creation") Date Creation      
-                input.form-control(type="date" name="edit_incident_dt_creation",value=cli_data[0].DATE_CREATION)
-                label(for="edit_incident_dt_cloture") Date Cloture      
-                input.form-control(type="date" name="edit_incident_dt_cloture",value=cli_data[0].DATE_CLOTURE)
-                label(for="edit_incident_etat") Statut
-                select.form-control(name="edit_incident_etat")
-                  for status in liste_status
-                    option(value=status.lib_statut,selected=( status.lib_statut == cli_data[0].ETAT ? true : false)) #{status.lib_statut}
-                label(for="edit_incident_desc") Descriptif
-                textarea.form-control(name="edit_incident_desc") #{cli_data[0].DESCRIPTIF}
-                label(for="edit_incident_resp") Responsable
-                select.form-control(name="edit_incident_resp")
-                  for resp in liste_resp
-                    option(value=resp.entite_responsable,selected=( resp.entite_responsable == cli_data[0].ENTITE_RESPONSABLE ? true : false)) #{resp.entite_responsable}
-                label(for="edit_incident_act") En action
-                select.form-control(name="edit_incident_act")
-                  for resp in liste_resp
-                    option(value=resp.entite_responsable,selected=( resp.entite_responsable == cli_data[0].ENTITE_EN_ACTION ? true : false)) #{resp.entite_responsable}
-
-                br
-                br
-                input.btn.btn-primary.submit_button(type="submit" ,id="submit_edit_incident",name="submit_edit_typo",value="Mettre a jour" )
-                input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
+              .container-fluid
+                .row
+                  .col-md-12
+                    label(for="edit_incident") Incident
+                    input(type="hidden" name="cli_id",value=cli_data[0].CLI)
+                    input.form-control(type="text" name="edit_incident",disabled="disabled",value=cli_data[0].CLI)
+                .row
+                  .col-md-12  
+                    label(for="edit_incident_titre") Titre             
+                    input.form-control( name="edit_incident_titre",value=cli_data[0].TITRE)
+                .row
+                  .col-md-12
+                    label(for="edit_incident_desc") Descriptif
+                    textarea.form-control(name="edit_incident_desc") #{cli_data[0].DESCRIPTIF}                    
+                .row
+                  .col-md-6
+                    label(for="edit_incident_dt_creation") Date Creation      
+                    input.form-control(type="date" name="edit_incident_dt_creation",value=cli_data[0].DATE_CREATION)
+                  .col-md-6
+                    label(for="edit_incident_dt_cloture") Date Cloture      
+                    input.form-control(type="date" name="edit_incident_dt_cloture",value=cli_data[0].DATE_CLOTURE)
+                .row
+                  .col-md-4
+                    label(for="edit_incident_etat") Statut
+                    select.form-control(name="edit_incident_etat")
+                      option(value='') CHOISIR
+                      for status in liste_status
+                        option(value=status.lib_statut,selected=( status.lib_statut == cli_data[0].ETAT ? true : false)) #{status.lib_statut}
+                  .col-md-4
+                    label(for="edit_incident_resp") Responsable
+                    select.form-control(name="edit_incident_resp")
+                      option(value='') CHOISIR
+                      for resp in liste_resp
+                        option(value=resp.entite_responsable,selected=( resp.entite_responsable == cli_data[0].ENTITE_RESPONSABLE ? true : false)) #{resp.entite_responsable}
+                  .col-md-4
+                    label(for="edit_incident_act") En action
+                    select.form-control(name="edit_incident_act")
+                      option(value='') CHOISIR
+                      for resp in liste_resp
+                        option(value=resp.entite_responsable,selected=( resp.entite_responsable == cli_data[0].ENTITE_EN_ACTION ? true : false)) #{resp.entite_responsable}
+                    br
+                    br
+                    input.btn.btn-primary.submit_button(type="submit" ,id="submit_edit_incident",name="submit_edit_typo",value="Mettre a jour" )
+                    input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
     script.
       $('#EditIncidentModal').modal('show')
       $('#submit_edit_incident').click(function(){

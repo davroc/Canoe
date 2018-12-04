@@ -23,11 +23,11 @@ exports.postEditCode = (req,res,next)=>{
     console.log(updatedcode[0].affectedRows);
     if(updatedcode[0].affectedRows >0)
     {
-      res.render('params/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/errorcodes',Message:'Le Code d erreur a été correctement modifié !'})
+      res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/errorcodes',Message:'Le Code d erreur a été correctement modifié !'})
     }
     else
     {
-      res.render('params/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/errorcodes',Message:'Le Code d erreur n\'a pas pu être modifié !'})
+      res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/errorcodes',Message:'Le Code d erreur n\'a pas pu être modifié !'})
     }
   })
 }
@@ -55,14 +55,14 @@ exports.postEditTypo = (req,res,next)=>{
   const editTypoData = req.body;
  // console.log(editTypoData);
   ParamModel.updateTypo(editTypoData,updatedtypo=>{
-    console.log(updatedtypo);
+   // console.log(updatedtypo);
     if (updatedtypo[0].affectedRows > 0)
     {
-      res.render('params/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/typos',Message:'La Typologie a été correctement modifiée !'})
+      res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/typos',Message:'La Typologie a été correctement modifiée !'})
     }
     else
     {
-      res.render('params/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/typos',Message:'La Typologie n\'a pas pu etre modifiée !'})
+      res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/typos',Message:'La Typologie n\'a pas pu etre modifiée !'})
     }
     
   })
@@ -90,7 +90,7 @@ exports.editCli = (req, res, next) => {
   ParamModel.getCliDetail(id_cli,cli_data =>{
       ParamModel.getCliStatusList(liste_status=>{
         ParamModel.getRespList(liste_resp=>{
-          console.log(liste_resp);
+          //console.log(liste_resp);
           res.render('params/edit_incident', { pageTitle: 'Edition de ticket', path: '/params/edit_incident' ,cli_data:cli_data,liste_status:liste_status,liste_resp:liste_resp}); 
         })
         
@@ -100,17 +100,16 @@ exports.editCli = (req, res, next) => {
 };
 
 exports.postEditCli = (req,res,next)=>{
-  const editCliData = req.body;
- // console.log(editTypoData);
+  const editCliData = req.body; 
   ParamModel.updateCli(editCliData,updatedcli=>{
-    console.log(updatedcli.affectedRows);
+    //console.log(updatedcli.affectedRows);
     if (updatedcli[0].affectedRows > 0)
     {
-      res.render('params/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/clis',Message:'L\'incident a été correctement modifié !'})
+      res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/clis',Message:'L\'incident a été correctement modifié !'})
     }
     else
     {
-      res.render('params/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/clis',Message:'L\'incident  n\'a pas pu etre modifié !'})
+      res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/clis',Message:'L\'incident  n\'a pas pu etre modifié !'})
     }
     
   })
@@ -119,10 +118,4 @@ exports.postEditCli = (req,res,next)=>{
 exports.addCli =  (req, res, next) => {
 
   res.render('params/add_cli', { pageTitle: 'Ajout de ticket', path: '/params/add_cli' });
-}
-
-// familles et sous familles
-
-exports.getFamilles = (req, res, next) => {
-  res.render('params/families_main', { pageTitle: 'Familles de Codes', path: '/params/families_main' });
 }

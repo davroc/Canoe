@@ -1,14 +1,10 @@
 extends ../layouts/layout.pug
 
 block styles
-    link(rel="stylesheet", href="/css/forms.css")
-    link(rel="stylesheet", href="/css/product.css")
-
+    link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 block content
-    main
+        main
 
-        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
-        script(src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
         script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
         script.
             $(document).ready( function () {
@@ -28,6 +24,7 @@ block content
                                     th Login
                                     th mail
                                     th droits
+                                    th admin
                                     th Editer
                             tbody
                                 each user in Usr
@@ -36,9 +33,10 @@ block content
                                         td #{user.prenom_user}
                                         td #{user.login_user}
                                         td #{user.mail_user}
-                                        td #{user.droits_user}
+                                        td #{user.lib_droit_user}
+                                        td #{user.admin == 1 ? 'Oui' : 'Non'}
                                         td
-                                            a.btn.btn-secondary(href="/admin/view_user/"+user.id_user) Modifier
-                                            a.btn.btn-danger(href="/admin/del_user/"+user.id_user) Supprimer
+                                            a.btn.btn-outline-primary(href="/admin/user_edit/"+user.login_user) Modifier
+                                            a.btn.btn-outline-danger(href="/admin/delete_user/"+user.login_user) Supprimer
                 else
                     h1 Pas d utilisateurs

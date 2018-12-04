@@ -2,10 +2,84 @@ extends ../layouts/layout.pug
 
 block styles
     link(rel="stylesheet", href="/css/cni.css")
+    link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
     main
+
+        script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+
+        script.
+            $(document).ready( function () {
+                $('#liste_top').DataTable();
+                $('#liste_derive').DataTable();
+            } );
+        
+        .group-item
+            h3 Top
+            br
+            .table-responsive
+                table#liste_top.table.table-striped.table-bordered
+                    thead
+                        tr
+                            th Code
+                            th #{table_header[0].day7}
+                            th #{table_header[0].day6}
+                            th #{table_header[0].day5}
+                            th #{table_header[0].day4}
+                            th #{table_header[0].day3}
+                            th #{table_header[0].day2}
+                            th #{table_header[0].day1}
+                            th Stock
+                            th Moyenne
+                    tbody
+                        for code in weeklyCodeData 
+                            tr
+                                td #{code.ERR_CODE}
+                                td #{code.day7}
+                                td #{code.day6}
+                                td #{code.day5}
+                                td #{code.day4}
+                                td #{code.day3}
+                                td #{code.day2}
+                                td #{code.day1}
+                                td #{code.stock}
+                                td #{code.moyenne}
         .group-item
             h3 Rupture
+            br
+            if rupture.length > 0
+                
+
         .group-item
             h3 Derive
+            br
+            if derive.length > 0
+                .table-responsive
+                    table#liste_derive.table.table-striped.table-bordered
+                        thead
+                            tr
+                                th Code
+                                th #{derive[0].dt_comparaison}
+                                th #{table_header[0].day7}
+                                th #{table_header[0].day6}
+                                th #{table_header[0].day5}
+                                th #{table_header[0].day4}
+                                th #{table_header[0].day3}
+                                th #{table_header[0].day2}
+                                th #{table_header[0].day1}
+                                th derive
+
+                        tbody
+                            for d in derive 
+                                tr
+                                    td #{d.ERR_CODE}
+                                    td #{d.data_dt_comparaison}
+                                    td #{d.day7}
+                                    td #{d.day6}
+                                    td #{d.day5}
+                                    td #{d.day4}
+                                    td #{d.day3}
+                                    td #{d.day2}
+                                    td #{d.day1}
+                                    td #{d.derive}                            

@@ -15,7 +15,8 @@ html(lang="en")
         block styles
     body
         .header   
-            nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+            
+            nav.navbar.navbar-expand-lg.navbar-light
                 a.navbar-brand(href="/") Canoe
                 button.navbar-toggler(type="button",data-toggle="collapse",data-target="#navbarSupportedContent",aria-controls="navbarSupportedContent",aria-expanded="false",aria-label="Toggle navigation")
                     span.navbar-toggler.icon
@@ -29,26 +30,37 @@ html(lang="en")
                             div.dropdown-menu(aria-labelledby="navbarDropdown")
                                 a.dropdown-item(href="/analyse/evo_ano") Evolution Anomalies
                                 a.dropdown-item(href="/analyse/liste_clis") Liste Incidents
-                                a.dropdown-item(href="/analyse/cni") Info Anomalie
-
-                        li.nav-item.dropdown
-                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
-                            div.dropdown-menu(aria-labelledby="navbarDropdown")
-                                a.dropdown-item(href="/params/errorcodes", class=(path === '/params/errorcodes' ? 'active' : '')) Gerer les codes d'erreur 
-                                .dropdown-divider 
-                                a.dropdown-item(href="/params/typos", class=(path === '/params/typos' ? 'active' : '')) Gerer les typologies 
-                                .dropdown-divider
-                                a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Gerer les incidents
-                                .dropdown-divider  
-                                a.dropdown-item(href="/params/parametres", class=(path === '/params/parametres' ? 'active' : '')) Parametres Applicatifs 
-                        li.nav-item.dropdown
-                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
-                            div.dropdown-menu(aria-labelledby="navbarDropdown")
-                                a.dropdown-item(href='/admin/userslist') Liste Utilisateurs
-                                a.dropdown-item(href="/admin/adduser", class=(path === '/admin/add-product' ? 'active' : '')) Ajout Utilisateur
+                                a.dropdown-item(href="/analyse/cni") Focus Anomalie
+                        if(session.droitsUser && session.droitsUser == 1)
+                            li.nav-item.dropdown
+                                a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
+                                div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                    a.dropdown-item(href="/params/errorcodes", class=(path === '/params/errorcodes' ? 'active' : '')) Gerer les codes d'erreur 
+                                    .dropdown-divider 
+                                    a.dropdown-item(href="/params/typos", class=(path === '/params/typos' ? 'active' : '')) Gerer les typologies 
+                                    .dropdown-divider
+                                    a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Gerer les incidents
+                                    .dropdown-divider  
+                                    a.dropdown-item(href="/params/parametres", class=(path === '/params/parametres' ? 'active' : '')) Parametres Applicatifs 
+                        if(session.isAdmin && session.isAdmin == 1)
+                            li.nav-item.dropdown
+                                a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
+                                div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                    a.dropdown-item(href='/admin/userslist') Liste Utilisateurs
+                                    a.dropdown-item(href="/admin/adduser", class=(path === '/admin/add-product' ? 'active' : '')) Ajout Utilisateur
+                    ul.nav.navbar-nav.navbar-right
+                        li.nav-item-dropdown
+                            if session.login
+                                a.nav-link.dropdown-toggle(href="#",id="navbarDropdownLogin",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") #{session.login}
+                                div.dropdown-menu(aria-labelledby="navbarDropdownLogin")                                  
+                                    form(action="/auth/logout",method="POST")
+                                        input.dropdown-item(type="submit",name="submit_logOut",value="Logout")
+                            else
+                                a.nav-link(href="/auth/login") Login
         .container-fluid
 
             block content
+
 
 
         
