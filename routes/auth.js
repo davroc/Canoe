@@ -10,6 +10,9 @@ router.get('/login', AuthController.getLogin);
 router.post('/login', AuthController.postLogin);
 router.post('/logout', AuthController.postLogout);
 
+router.get('/createAccount', AuthController.createAccountForm);
+router.post('/createAccount', AuthController.createAccount);
+
 
 
 module.exports = router;

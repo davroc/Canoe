@@ -27,6 +27,7 @@ exports.getCliList  = liste_clis => {
 
   exports.getEvoAno = evo_ano =>{
     db.execute('SELECT ERROR_CODE,date_format(START_COMM,"%Y-%m-%d") as dt, COUNT(EVENT_NO) as nb_tickets  FROM canoe_db.daily_data  WHERE START_COMM <= subdate(current_date,1)  GROUP BY ERROR_CODE,dt')
+    db.execute('select ERR_CODE as ERROR_CODE,date_format(dt,"%d/%m/%Y") as dt,nb_tickets from bios_errorcodes_daily_summary where dt <= subdate(current_date(),1) and dt_insertion= current_date() group by ERR_CODE,dt')
     .then(res=>{
       evo_ano(res[0]);
     })
@@ -34,8 +35,8 @@ exports.getCliList  = liste_clis => {
   }
 
   exports.getCodesData4pastweek = (weeklydata) =>{
-  sql="select a.ERR_CODE, a.nb_tickets as 'day7' ,b.nb_tickets as 'day6',c.nb_tickets as 'day5',d.nb_tickets as 'day4',e.nb_tickets as 'day3',f.nb_tickets as 'day2',g.nb_tickets as 'day1',sum(h.nb_tickets) as `stock`,avg(i.nb_tickets) as `moyenne` from bios_errorcodes_daily_summary a join bios_errorcodes_daily_summary b on a.ERR_CODE=b.ERR_CODE join bios_errorcodes_daily_summary c on a.ERR_CODE=c.ERR_CODE join bios_errorcodes_daily_summary d on a.ERR_CODE=d.ERR_CODE join bios_errorcodes_daily_summary e on a.ERR_CODE=e.ERR_CODE join bios_errorcodes_daily_summary f on a.ERR_CODE=f.ERR_CODE join bios_errorcodes_daily_summary g on a.ERR_CODE=g.ERR_CODE join bios_errorcodes_daily_summary h on a.ERR_CODE=h.ERR_CODE join bios_errorcodes_daily_summary i on a.ERR_CODE=i.ERR_CODE where a.dt = subdate(current_date(),7) and a.dt_insertion = current_date() and b.dt = subdate(current_date(),6) and b.dt_insertion = current_date() and c.dt = subdate(current_date(),5) and c.dt_insertion = current_date() and d.dt = subdate(current_date(),4) and d.dt_insertion = current_date() and e.dt = subdate(current_date(),3) and e.dt_insertion = current_date() and f.dt = subdate(current_date(),2) and f.dt_insertion = current_date() and g.dt = subdate(current_date(),1) and g.dt_insertion = current_date() and h.dt between subdate(current_date(),90) and current_date() and h.dt_insertion = current_date() and i.dt between subdate(current_date(),90) and current_date() and i.dt_insertion = current_date() group by a.ERR_CODE";
-    //console.log(sql);
+  sql="select z.ErrorCode as ERR_CODE, a.nb_tickets as 'day7' ,b.nb_tickets as 'day6',c.nb_tickets as 'day5',d.nb_tickets as 'day4',e.nb_tickets as 'day3',f.nb_tickets as 'day2',g.nb_tickets as 'day1',sum(h.nb_tickets) as `stock`,avg(i.nb_tickets) as `moyenne` from errorcodes z left join bios_errorcodes_daily_summary a on z.ErrorCode=a.ERR_CODE left join bios_errorcodes_daily_summary b on z.ErrorCode=b.ERR_CODE left join bios_errorcodes_daily_summary c on z.ErrorCode=c.ERR_CODE left join bios_errorcodes_daily_summary d on z.ErrorCode=d.ERR_CODE left join bios_errorcodes_daily_summary e on z.ErrorCode=e.ERR_CODE left join bios_errorcodes_daily_summary f on z.ErrorCode=f.ERR_CODE left join bios_errorcodes_daily_summary g on z.ErrorCode=g.ERR_CODE left join bios_errorcodes_daily_summary h on z.ErrorCode=h.ERR_CODE left join bios_errorcodes_daily_summary i on z.ErrorCode=i.ERR_CODE where a.dt = subdate(current_date(),7) and a.dt_insertion = current_date() and b.dt = subdate(current_date(),6) and b.dt_insertion = current_date() and c.dt = subdate(current_date(),5) and c.dt_insertion = current_date() and d.dt = subdate(current_date(),4) and d.dt_insertion = current_date() and e.dt = subdate(current_date(),3) and e.dt_insertion = current_date() and f.dt = subdate(current_date(),2) and f.dt_insertion = current_date() and g.dt = subdate(current_date(),1) and g.dt_insertion = current_date() and h.dt between subdate(current_date(),90) and current_date() and h.dt_insertion = current_date() and i.dt between subdate(current_date(),90) and current_date() and i.dt_insertion = current_date() group by z.ErrorCode";
+    console.log(sql);
     db.execute(sql)
     .then(res=>{
       weeklydata(res[0]);
@@ -99,7 +100,7 @@ exports.getCliList  = liste_clis => {
   }
 
   exports.getCodeEvo=(code,evoCode)=>{
-    db.execute('select ERR_CODE as code,date_format(dt,"%d/%m/%Y") as dat,nb_tickets from bios_errorcodes_daily_summary where ERR_CODE = "'+code+'" order by dt')
+    db.execute('select ERR_CODE as code,date_format(dt,"%d/%m/%Y") as dat,nb_tickets from bios_errorcodes_daily_summary where ERR_CODE = "'+code+'" and dt_insertion= current_date() order by dt')
     .then(res=>{
 
       evoCode(res[0]);

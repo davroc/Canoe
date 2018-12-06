@@ -16,13 +16,13 @@ block content
             } );
         
         .group-item
-            h3 Top
+            h3.group-item_title Top
             br
             .table-responsive
-                table#liste_top.table.table-striped.table-bordered
+                table#liste_top.table.table-hover.table-bordered
                     thead
                         tr
-                            th Code
+                            th CODE ERREUR
                             th #{table_header[0].day7}
                             th #{table_header[0].day6}
                             th #{table_header[0].day5}
@@ -46,20 +46,47 @@ block content
                                 td #{code.stock}
                                 td #{code.moyenne}
         .group-item
-            h3 Rupture
+            h3.group-item_title Rupture
             br
             if rupture.length > 0
-                
+                .table-responsive
+                    table#liste_rupture.table.table-hover.table-bordered
+                        thead
+                            tr
+                                th CODE ERREUR
+                                th #{table_header[0].day7}
+                                th #{table_header[0].day6}
+                                th #{table_header[0].day5}
+                                th #{table_header[0].day4}
+                                th #{table_header[0].day3}
+                                th #{table_header[0].day2}
+                                th #{table_header[0].day1}
+                                th moyenne
+                                th ecart type
+
+                        tbody
+                            for r in rupture 
+                                tr
+                                    td #{r.ERR_CODE}
+                                    td #{r.day7}
+                                    td #{r.day6}
+                                    td #{r.day5}
+                                    td #{r.day4}
+                                    td #{r.day3}
+                                    td #{r.day2}
+                                    td #{r.day1}
+                                    td #{r.moy}                    
+                                    td #{r.ecart}                    
 
         .group-item
-            h3 Derive
+            h3.group-item_title Derive
             br
             if derive.length > 0
                 .table-responsive
-                    table#liste_derive.table.table-striped.table-bordered
+                    table#liste_derive.table.table-hover.table-bordered
                         thead
                             tr
-                                th Code
+                                th CODE ERREUR
                                 th #{derive[0].dt_comparaison}
                                 th #{table_header[0].day7}
                                 th #{table_header[0].day6}

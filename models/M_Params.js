@@ -11,7 +11,14 @@ exports.getCodesList = liste_errorCodes =>{
   })
  .catch(err=>{return err});
 }
-
+exports.addCode=(data,addedCode)=>{
+  db.execute('INSERT INTO errorcodes (ErrorCode,Description_ErrorCode,isNewCode) values ("'+ data.newCode_Code +'","'+ data.newCode_Problematique +'",1)')
+    .then(res=>{
+      addedCode(res);
+      //console.log(res[0]);
+    })
+    .catch(err=>{console.log(err)});   
+}
 exports.getCode = (id_code,data_code)=>{
   db.execute('select * from errorcodes where ErrorCode ='+id_code)
   .then(res=>{
@@ -44,6 +51,15 @@ exports.getTypoList = liste_typos =>{
    // console.log(liste_clis);
   })
  .catch(err=>{return err});
+}
+
+exports.addTypo=(data,addedTypo)=>{
+  db.execute('INSERT INTO bios_typologies (error_code,libelle_typologie,source_potentielle,collecte_impactee,responsabilite) values ("'+ data.newTypo_Code +'","'+ data.newTypo_Typologie +'","'+ data.newTypo_Source +'","'+ data.newTypo_Collecte +'","'+ data.newTypo_Resp +'")')
+    .then(res=>{
+      addedTypo(res);
+      //console.log(res[0]);
+    })
+    .catch(err=>{console.log(err)});   
 }
 
 exports.getTypo = (id_typo,data_typo)=>{
@@ -83,14 +99,21 @@ exports.getParamsList = liste_params =>{
 //tickets
 
 exports.getCliList  = liste_clis => {
-  db.execute('SELECT * from cli')
+  db.execute('SELECT SI,CLI,TITRE,CODE_ERREUR,DATE_FORMAT(DATE_CREATION,"%d/%m/%Y") as DATE_CREATION,DATE_FORMAT(DATE_CLOTURE,"%d/%m/%Y") as DATE_CLOTURE,ETAT,DESCRIPTIF,ENTITE_RESPONSABLE,ENTITE_EN_ACTION from cli')
    .then(res=>{
      liste_clis(res[0]);
     // console.log(liste_clis);
    })
   .catch(err=>{return err});
   }
-
+  exports.addCli=(data,addedCli)=>{
+    db.execute('INSERT INTO cli (SI,CLI,TITRE,CODE_ERREUR,DATE_CREATION,DATE_CLOTURE,ETAT,DESCRIPTIF,ENTITE_RESPONSABLE,ENTITE_EN_ACTION) values ("SI","'+ data.newCli_CLI +'","'+ data.newCli_titre +'","'+ data.newCli_Code +'","'+ data.newCli_dt_creation +'","'+ data.newCli_dt_cloture +'","'+ data.newCli_etat +'","'+ data.newCli_desc +'","'+ data.newCli_resp +'","'+ data.newCli_act +'")')
+      .then(res=>{
+        addedCli(res);
+        //console.log(res[0]);
+      })
+      .catch(err=>{console.log(err)});   
+  }
   exports.getCliDetail = (id_cli,cli_data) =>{
     const sql='SELECT CLI,TITRE,CODE_ERREUR,DATE_FORMAT(DATE_CREATION,"%Y-%m-%d") as DATE_CREATION,DATE_FORMAT(DATE_CLOTURE,"%Y-%m-%d") as DATE_CLOTURE,ETAT,DESCRIPTIF,ENTITE_RESPONSABLE,ENTITE_EN_ACTION from cli where CLI="'+id_cli+'"';
     db.execute(sql)
@@ -138,3 +161,4 @@ exports.getCliList  = liste_clis => {
       })
       .catch(err=>{return err});    
   }
+

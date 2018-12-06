@@ -17,6 +17,11 @@ block styles
                     label(for="edit_user_login") Login
                     input.form-control(type="text" name="edit_user_login",value=user_data[0].login_user) 
                     input(type="hidden",name="user_id",value=user_data[0].id_user)
+                .col-md-2.col-md-offset-2 
+                    label(for="edit_user_actif") Actif            
+                    select.form-control(name="edit_user_actif")
+                            option(value=0,selected= (user_data[0].is_active == 0 ? true :false)) Non
+                            option(value=1,selected= (user_data[0].is_active == 1 ? true :false)) Oui
               .row
                 .col-md-6 
                     label(for="edit_user_nom") Nom            
@@ -39,6 +44,7 @@ block styles
                     select.form-control(name="edit_user_admin")
                             option(value=0,selected= (user_data[0].admin == 0 ? true :false)) Non
                             option(value=1,selected= (user_data[0].admin == 1 ? true :false)) Oui
+                
               .row
                 input.btn.btn-primary.submit_button(type="submit" ,id="submit_maj_user",name="submit_maj_user",value="Mettre a jour" )
                 input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")

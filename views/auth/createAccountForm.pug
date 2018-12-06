@@ -1,0 +1,23 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+
+block content
+    main
+        .row.justify-content-md-center
+            .col-md-6.col-offset-md-3
+                h3.group-item_title Creation de compte
+                form(action="./createAccount", method="POST")
+                    label(for="nom_user") Nom
+                    input.form-control(type="text", name="nom_user",value="",required="required")
+                    label(for="prenom_user") Prénom
+                    input.form-control(type="text", name="prenom_user",value="",required="required")
+                    label(for="login_user") Login
+                    input.form-control(type="text", name="login_user",value="",required="required")   
+                    label(for="mail_user") Mail
+                    input.form-control(type="text", name="mail_user",value="",required="required")             
+                    label(for="pwd_user") Mot de Passe
+                    input.form-control(type="password", name="pwd_user",value="",required="required")
+                    br
+                    button.btn(type="submit") Enregistrer

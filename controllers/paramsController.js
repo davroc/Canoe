@@ -7,6 +7,20 @@ exports.getErrorCodes =(req,res,next)=>{
   })
 }
 
+exports.addCode = (req,res,next)=>{
+  const code_data=req.body;
+  ParamModel.addCode(code_data,addedCode =>{
+    if (addedCode[0].affectedRows > 0)
+    {
+      res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/errorcodes',Message:'Le Code d erreur a été correctement ajouté !'})
+    }
+    else
+    {
+      res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/errorcodes',Message:'Le Code d erreur n\'a pas pu être ajouté !'})
+    }
+  })
+}
+
 exports.editCode =(req,res,next)=>{
   const id_code = req.params.code;
   console.log(id_code);
@@ -37,8 +51,25 @@ exports.postEditCode = (req,res,next)=>{
 exports.getTypos =(req,res,next)=>{
   ParamModel.getTypoList(liste_typos =>{
     ParamModel.getCodesList(liste_errorcodes =>{
-      res.render('params/typos',{typos : liste_typos, errorCodes : liste_errorcodes})
+      ParamModel.getRespList(liste_resp=>{
+        res.render('params/typos',{typos : liste_typos, errorCodes : liste_errorcodes, resp:liste_resp})
+      })
+      
     })
+  })
+}
+
+exports.addTypo = (req,res,next)=>{
+  const typo_data=req.body;
+  ParamModel.addTypo(typo_data,addedTypo =>{
+    if (addedTypo[0].affectedRows > 0)
+    {
+      res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/typos',Message:'La typologie a été correctement ajoutée !'})
+    }
+    else
+    {
+      res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/typos',Message:'La typologie n\'a pas pu être ajoutée !'})
+    }
   })
 }
 
@@ -79,9 +110,16 @@ exports.getParams =(req,res,next)=>{
 
 exports.getCliList =  (req, res, next) => {
   ParamModel.getCliList(liste_cli =>{
-   res.render('params/clis', { pageTitle: 'Liste de Clis', path: '/params/clis' ,Clis: liste_cli });
+    ParamModel.getCliStatusList(liste_status=>{
+      ParamModel.getRespList(liste_resp=>{
+        ParamModel.getCodesList(liste_codes=>{
+          res.render('params/clis', { pageTitle: 'Liste de Clis', path: '/params/clis' ,Clis: liste_cli,liste_status:liste_status,liste_resp:liste_resp,liste_codes:liste_codes });
+        })
+      })
+    })       
  });
 };
+
 
 exports.editCli = (req, res, next) => {
 
@@ -116,6 +154,16 @@ exports.postEditCli = (req,res,next)=>{
 }
 
 exports.addCli =  (req, res, next) => {
-
-  res.render('params/add_cli', { pageTitle: 'Ajout de ticket', path: '/params/add_cli' });
-}
+  const cli_data=req.body;
+  ParamModel.addCli(cli_data,addedCli=>{
+      //console.log(updatedcli.affectedRows);
+      if (addedCli[0].affectedRows > 0)
+      {
+        res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/clis',Message:'L\'incident a été correctement ajouté !'})
+      }
+      else
+      {
+        res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/clis',Message:'L\'incident  n\'a pas pu etre ajouté !'})
+      }
+    })
+  }

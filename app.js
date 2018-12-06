@@ -1,37 +1,50 @@
 const path = require('path');
-
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const session = require ('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const FileWatcher =require('chokidar');
+
+const ImportDataController = require('./controllers/ImportsController')
+const ReportingController = require('./controllers/ReportingController')
+
+//watching the import data directory
+
+const __IMPORT_DIR = 'D:/Donnees/js/Canoe/input_data';
+var watcher = FileWatcher.watch(__IMPORT_DIR, {
+    ignored: /(^|[\/\\])\../,
+    persistent: true
+  });
+
+  watcher
+  .on('add', path => {
+      console.log(`File ${path} has been added`);
+      ImportDataController.Import(path);
+      
+    })
+  .on('change', path => {
+      console.log(`File ${path} has been changed`);
+      ImportDataController.Import(path);
+    })
+  .on('unlink', path => console.log(`File ${path} has been removed`));
+
+
+//scheduler
+var schedule = require('node-schedule');
+ 
+var rule = new schedule.RecurrenceRule();
+rule.dayOfWeek = [new schedule.Range(1, 5)];
+rule.hour = 8;
+rule.minute = 0;
+ 
+var j = schedule.scheduleJob(rule, function(){
+    ReportingController.dailyAlarmReporting;
+});
+
+
 
 const db=require('./util/db');
-
-//const OraDB=require('oracledb');
-//const dbBRM=require('./util/db_brm');
-// OraDB.getConnection({
-//     user: 'u122495',
-//     password:'T0matito21',
-//     connectString:'pcw00002scan0.services.prod/PBRM01P_CLI02'
-// },function(err, connex){
-// if (err){
-//     console.log(err.message);
-//     return;
-// }
-// connection.execute(
-//     `select * from pin.uniqueness_t where account_obj_id0=(
-//         select distinct account_obj_id0 from pin.uniqueness_t where login='33609187474');`,
-//     function(err, result) {
-//       if (err) {
-//         console.error(err.message);
-//         doRelease(connection);
-//         return;
-//       }
-//       console.log(result.rows);
-//       doRelease(connection);
-//     });
-// });
 
 
 const app = express();
@@ -60,6 +73,9 @@ app.use('/admin', adminRoutes);
 app.use('/params', paramRoutes);
 app.use('/analyse',analyseRoutes);
 app.use('/auth',authRoutes);
+app.use('/' ,(req,res,next)=>{
+    res.redirect('/analyse/alarmes');
+})
 
 
 app.use((req, res, next) => {

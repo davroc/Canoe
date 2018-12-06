@@ -2,13 +2,11 @@ extends ../layouts/layout.pug
 
 block styles
     link(rel="stylesheet", href="/css/forms.css")
-    link(rel="stylesheet", href="/css/product.css")
     link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
     main
 
-        script(src="https://code.jquery.com/jquery-3.2.1.min.js" )
         script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
         script.
@@ -20,7 +18,7 @@ block content
             .col-md-12
                 ul.nav.nav-tabs
                     li.nav-item
-                        a.nav-link.active(href="#GererTypos",data-toggle="tab",role="tab") Gerer les Typologies
+                        a.nav-link.active.show(href="#GererTypos",data-toggle="tab",role="tab") Gerer les Typologies
                     li.nav-item
                         a.nav-link(href="#AjouterTypo",data-toggle="tab",role="tab") Ajouter une Typologie
 
@@ -29,7 +27,7 @@ block content
                         if typos.length > 0 
                             .tab-container
                                 .table-responsive
-                                    table#liste_typos.table.table-striped.table-bordered
+                                    table#liste_typos.table.table-bordered.table-hover
                                         thead
                                             tr
                                                 th Code Erreur
@@ -58,15 +56,25 @@ block content
 
                     .tab-pane.fade(id="AjouterTypo", role="tabpanel", aria-labelledby="AjouterTypo-tab")
                         .tab-container
-                            H3 Ajouter une typologie
-                            label(for "newTypo_CodeList") Code Erreur lié:
-                            select.form-control(type="text",name="newTypo_CodeList",id="newTypo_CodeList")
-                                option(value="selectionner") Selectionner
-                                for code in errorCodes
-                                    option(value=code.ErrorCode) #{code.ErrorCode}
+                           .row
+                                .col-md-8
+                                    form(action='/params/typo_add',method='POST')
+                                        label(for "newTypo_Code") Code Erreur lié:
+                                        select.form-control(type="text",name="newTypo_Code",id="newTypo_Code")
+                                            option(value="") Selectionner
+                                            for code in errorCodes
+                                                option(value=code.ErrorCode) #{code.ErrorCode}
 
-                            label(for "newTypo_Typologie") Typologie:
-                            input.form-control(type="text",name="newTypo_Typologie",id="newTypo_Typologie")
-                            label(for "newTypo_Source") Source Potentielle:
-                            textarea.form-control(name="newTypo_Source",id="newTypo_Source")
-                            input(type="submit" name="addCode" value="Ajouter le code")
+                                        label(for "newTypo_Typologie") Typologie:
+                                        input.form-control(type="text",name="newTypo_Typologie",id="newTypo_Typologie")
+                                        label(for "newTypo_Source") Source Potentielle:
+                                        textarea.form-control(name="newTypo_Source",id="newTypo_Source")
+                                        label(for "newTypo_Collecte") Collecte Impactée:
+                                        input.form-control(type="text",name="newTypo_Collecte",id="newTypo_Collecte")
+                                        label(for "newTypo_resp") Responsabilité:
+                                        select.form-control(name="newTypo_Resp")    
+                                            option(value="") Choisir
+                                            for r in resp
+                                                option(value=r.entite_responsable) #{r.entite_responsable}
+                                        br
+                                        input.btn.btn-outline-primary(type="submit" name="addCode" value="Ajouter la Typologie")

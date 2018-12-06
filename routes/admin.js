@@ -4,6 +4,7 @@ const express = require('express');
 
 const rootDir = require('../util/path');
 
+const AuthMiddleware = require ('../middleware/isAuth');
 const AdminController = require('../controllers/adminController');
 
 const router = express.Router();
@@ -11,17 +12,17 @@ const router = express.Router();
 
 
 // user list
-router.get('/userslist',AdminController.getUsersList);
-router.get('/user_edit/:userid', AdminController.viewUser);
-router.post('/user_edit',AdminController.postEditUser);
+router.get('/userslist',AuthMiddleware.isAdmin,AdminController.getUsersList);
+router.get('/user_edit/:userid',AuthMiddleware.isAdmin, AdminController.viewUser);
+router.post('/user_edit',AuthMiddleware.isAdmin, AdminController.postEditUser);
 
 //delete user
-router.get('/delete_user/:userid', AdminController.deleteUser);
+router.get('/delete_user/:userid' ,AuthMiddleware.isAdmin, AdminController.deleteUser);
 // user add
 // getting the form
-router.get('/adduser', AdminController.addUser);
+router.get('/adduser',AuthMiddleware.isAdmin, AdminController.addUser);
 // submiting new user
-router.post('/adduser', AdminController.postNewUser );
+router.post('/adduser',AuthMiddleware.isAdmin, AdminController.postNewUser );
 
 
 exports.routes = router;

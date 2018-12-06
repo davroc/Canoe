@@ -2,7 +2,6 @@ extends ../layouts/layout.pug
 
 block styles
     link(rel="stylesheet", href="/css/forms.css")
-    link(rel="stylesheet", href="/css/product.css")
     link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
@@ -19,7 +18,7 @@ block content
             .col-md-12
                 ul.nav.nav-tabs
                     li.nav-item
-                        a.nav-link.active(href="#GererCode",data-toggle="tab",role="tab") Gerer les Codes
+                        a.nav-link.active.show(href="#GererCode",data-toggle="tab",role="tab") Gerer les Codes
                     li.nav-item
                         a.nav-link(href="#AjouterCode",data-toggle="tab",role="tab") Ajouter un Code
 
@@ -30,7 +29,7 @@ block content
                                 .row
                                     .col-md-8
                                         .table-responsive
-                                            table#liste_codes.table.table-striped.table-bordered
+                                            table#liste_codes.table.table-bordered.table-hover
                                                 thead
                                                     tr
                                                         th Code Erreur
@@ -49,10 +48,12 @@ block content
 
                     .tab-pane.fade(id="AjouterCode", role="tabpanel", aria-labelledby="AjouterCode-tab")
                         .tab-container
-                            form(action="",method="post")
-                                H3 Ajouter un code d erreur
-                                label(for "newCode_Code") Code:
-                                input.form-control(type="text",name="newCode_Code",id="newCode_Code")
-                                label(for "newCode_Problematique") Problématique:
-                                textarea.form-control(name="newCode_Problematique",id="newCode_Problematique")
-                                input(type="submit" name="addCode" value="Ajouter le code")
+                           .row
+                                .col-md-8
+                                    form(action="/params/code_add",method="post")
+                                        label(for "newCode_Code") Code:
+                                        input.form-control(type="text",name="newCode_Code",id="newCode_Code")
+                                        label(for "newCode_Problematique") Problématique:
+                                        textarea.form-control(name="newCode_Problematique",id="newCode_Problematique")
+                                        br
+                                        input.btn.btn-outline-primary(type="submit" name="addCode" value="Ajouter le code")

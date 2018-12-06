@@ -9,8 +9,7 @@ exports.getCliList =  (req, res, next) => {
 };
 
 exports.getAlarmes =(req,res,next)=>{
-  ParamModel.getParamsList(params=>{
-    AnalyseModel.getTop(params,top =>{  
+  ParamModel.getParamsList(params=>{  
       AnalyseModel.getCodesData4pastweek(weeklyCodedata =>{
         AnalyseModel.getAlarmesDaysHeaders(headers =>{
           //console.log(headers);
@@ -39,7 +38,7 @@ exports.getAlarmes =(req,res,next)=>{
               {             
                 for (var d of derive)
                 {
-                  console.log(d);
+                  //console.log(d);
                   for (var w of weeklyCodedata)
                   {
                     if (w.ERR_CODE == d.ERR_CODE)
@@ -54,14 +53,14 @@ exports.getAlarmes =(req,res,next)=>{
                 console.log('pas de dérive');
               }
 
-              console.log(derive);
+              //console.log(derive);
+              console.log(rupture);
               res.render('analyse/alarmes',{ pageTitle: 'Alarmes', path: '/analyse/alarmes' ,derive:derive,rupture:rupture ,weeklyCodeData:weeklyCodedata ,table_header:headers});
             });
           });          
         }) ;
       });
     });
-  });  
 }
 
 exports.getEvoAno = (req,res,next)=>{

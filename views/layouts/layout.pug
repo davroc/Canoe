@@ -11,6 +11,7 @@ html(lang="en")
         
         link(rel="stylesheet", href="/css/main.css")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/open-iconic-master/font/css/open-iconic-bootstrap.min.css")
         
         block styles
     body
@@ -18,23 +19,27 @@ html(lang="en")
             
             nav.navbar.navbar-expand-lg.navbar-light
                 a.navbar-brand(href="/") Canoe
+                
                 button.navbar-toggler(type="button",data-toggle="collapse",data-target="#navbarSupportedContent",aria-controls="navbarSupportedContent",aria-expanded="false",aria-label="Toggle navigation")
                     span.navbar-toggler.icon
 
                 div.collapse.navbar-collapse(id="navbarSupportedContent")
                     ul.navbar-nav.mr-auto
-                        li.nav-item
-                            a.nav-link(href="/analyse/alarmes") Alarmes
-                        li.nav-item.dropdown
-                            a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Supervision
-                            div.dropdown-menu(aria-labelledby="navbarDropdown")
-                                a.dropdown-item(href="/analyse/evo_ano") Evolution Anomalies
-                                a.dropdown-item(href="/analyse/liste_clis") Liste Incidents
-                                a.dropdown-item(href="/analyse/cni") Focus Anomalie
-                        if(session.droitsUser && session.droitsUser == 1)
+                        if session.isAuthenticated
+                            li.nav-item
+                                a.nav-link(href="/analyse/alarmes") Alarmes
+
                             li.nav-item.dropdown
-                                a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
-                                div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                a.nav-link.dropdown-toggle(href="#",id="DropdownAlarmes",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Supervision
+                                div.dropdown-menu(aria-labelledby="DropdownAlarmes")
+                                    a.dropdown-item(href="/analyse/evo_ano", class=(path === '/analyse/evo_ano' ? 'active' : '')) Evolution Anomalies
+                                    a.dropdown-item(href="/analyse/liste_clis", class=(path === '/analyse/liste_clis' ? 'active' : '')) Liste Incidents
+                                    a.dropdown-item(href="/analyse/cni", class=(path === '/analyse/cni' ? 'active' : '')) Focus Anomalie
+
+                        if session.isParam 
+                            li.nav-item.dropdown
+                                a.nav-link.dropdown-toggle(href="#",id="DropdownParam",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Paramétrage Applicatif
+                                div.dropdown-menu(aria-labelledby="DropdownParam")
                                     a.dropdown-item(href="/params/errorcodes", class=(path === '/params/errorcodes' ? 'active' : '')) Gerer les codes d'erreur 
                                     .dropdown-divider 
                                     a.dropdown-item(href="/params/typos", class=(path === '/params/typos' ? 'active' : '')) Gerer les typologies 
@@ -42,21 +47,36 @@ html(lang="en")
                                     a.dropdown-item(href="/params/clis", class=(path === '/params/clis' ? 'active' : '')) Gerer les incidents
                                     .dropdown-divider  
                                     a.dropdown-item(href="/params/parametres", class=(path === '/params/parametres' ? 'active' : '')) Parametres Applicatifs 
-                        if(session.isAdmin && session.isAdmin == 1)
+                    
+                        if session.isAdmin
                             li.nav-item.dropdown
-                                a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
-                                div.dropdown-menu(aria-labelledby="navbarDropdown")
-                                    a.dropdown-item(href='/admin/userslist') Liste Utilisateurs
-                                    a.dropdown-item(href="/admin/adduser", class=(path === '/admin/add-product' ? 'active' : '')) Ajout Utilisateur
+                                a.nav-link.dropdown-toggle(href="#",id="DropdownAdmin",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
+                                div.dropdown-menu(aria-labelledby="DropdownAdmin")
+                                    a.dropdown-item(href='/admin/userslist', class=(path === '/admin/userslist' ? 'active' : '')) Liste Utilisateurs
+                                    a.dropdown-item(href="/admin/adduser", class=(path === '/admin/adduser' ? 'active' : '')) Ajout Utilisateur
+                    
                     ul.nav.navbar-nav.navbar-right
-                        li.nav-item-dropdown
-                            if session.login
-                                a.nav-link.dropdown-toggle(href="#",id="navbarDropdownLogin",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") #{session.login}
-                                div.dropdown-menu(aria-labelledby="navbarDropdownLogin")                                  
-                                    form(action="/auth/logout",method="POST")
-                                        input.dropdown-item(type="submit",name="submit_logOut",value="Logout")
-                            else
-                                a.nav-link(href="/auth/login") Login
+                        if session.isAuthenticated
+                            .btn-group.dropleft
+                                button.btn.btn-outline-info.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") #{session.login}
+                                    
+                                div.dropdown-menu.dropdown-menu-right(aria-labelledby="DropdownLogOut")                                  
+                                    form.text-center(action="/auth/logout",method="POST")
+
+                                        button.btn.btn-outline-warning(type="submit",name="submit_logOut",value="Logout")
+                                            span.oi.oi-account-logout &nbsp;Logout
+                                            
+                        else
+                            .btn-group.dropleft
+                                button.btn.btn-outline-info.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Se Connecter
+                                div.dropdown-menu.dropdown-menu-right.text-center(aria-labelledby="DropdownLogin")
+                                    form.text-center(action="/auth/login",method="GET")
+                                        button.btn.btn-outline-success(type="submit")
+                                            span.oi.oi-account-login &nbsp; LogIn
+                                    .dropdown-divider
+                                    form.text-center(action="/auth/createAccount",method="GET")
+                                        button.btn.btn-outline-warning(type="submit") Créer un compte
+                                        
         .container-fluid
 
             block content
