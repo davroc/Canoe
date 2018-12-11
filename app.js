@@ -5,41 +5,44 @@ const bodyParser = require('body-parser');
 const session = require ('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const FileWatcher =require('chokidar');
-
+const compression = require('compression');
 const ImportDataController = require('./controllers/ImportsController')
 const ReportingController = require('./controllers/ReportingController')
 
 //watching the import data directory
 
-const __IMPORT_DIR = 'D:/Donnees/js/Canoe/input_data';
+//const __IMPORT_DIR = 'D:/Donnees/js/Canoe/input_data';
+const __IMPORT_DIR = '//somtous/SOMTOUS/PEPS_ECH_A/MS_ECH_DIR/CANOE';
 var watcher = FileWatcher.watch(__IMPORT_DIR, {
     ignored: /(^|[\/\\])\../,
-    persistent: true
+    persistent: true,
+    awaitWriteFinish:true,
+    ignorePermissionErrors:true
   });
 
   watcher
   .on('add', path => {
-      console.log(`File ${path} has been added`);
-      ImportDataController.Import(path);
-      
-    })
-  .on('change', path => {
-      console.log(`File ${path} has been changed`);
+      console.log(`File ${path} has been added`);    
       ImportDataController.Import(path);
     })
+//   .on('change', path => {
+//       console.log(`File ${path} has been changed`);
+//       //ImportDataController.Import(path);
+//     })
   .on('unlink', path => console.log(`File ${path} has been removed`));
 
 
-//scheduler
+//scheduler for reportings
 var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [new schedule.Range(1, 5)];
-rule.hour = 8;
-rule.minute = 0;
+rule.hour = 9;
+rule.minute = 36;
  
 var j = schedule.scheduleJob(rule, function(){
-    ReportingController.dailyAlarmReporting;
+    console.log('planif');
+    ReportingController.dailyAlarmReporting();
 });
 
 
@@ -48,6 +51,8 @@ const db=require('./util/db');
 
 
 const app = express();
+app.use(compression())
+
 
 app.set('view engine', 'pug');
 app.set('views', 'views');

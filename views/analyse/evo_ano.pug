@@ -3,13 +3,11 @@ extends ../layouts/layout.pug
 block styles
   link(rel="stylesheet", href="/css/cni.css")
   link(rel="stylesheet", href="/css/evo_codes.css")
-  link(rel="stylesheet",href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
+  link(rel="stylesheet", href="/css/tooltips.css")
 
 block content
     main
       script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js')      
-      script(src="https://code.jquery.com/jquery-3.2.1.min.js" )     
-      script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
       script.
           //- $(document).ready( function () {
           //-     $('#liste_related_clis').DataTable();
@@ -23,7 +21,9 @@ block content
           .col
               #EvoAnoChartContainer.group-item
                 p.group-item_title Evolution des Tickets
-                  select#code_selecteur
+                  select#code_selecteur 
+
+                  span.oi.oi-info.info-icon.float-right(data-title="Donnees du : "+ fraicheur_donnees +"\n Profondeur de données : "+ profondeur +" jours")
                   
                 canvas(id="EvoAno_Chart")
                   script. 

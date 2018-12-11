@@ -1,5 +1,6 @@
 const AuthModel= require('../models/M_Auth');
 const bcrypt = require ('bcryptjs');
+const {validationResult} = require('express-validator/check')
 const Mailer=require('nodemailer');
 const mailer_conf = {
   host:'mail-0092.sfr.com',
@@ -67,6 +68,11 @@ exports.createAccount=(req,res,next)=>
 {
  const data=req.body;
  const mail=req.body.mail_user;
+ const errors = validationResult(req);
+ if(!errors.isEmpty())
+ {
+   return res.status(422).render('auth/createAccountForm',{path:'auth/createAccountForm',pageTitle:'Creation de compte',errors:errors.array()});
+ }
  //console.log(mail);
   AuthModel.check_mailIsUnknown(mail,isuniq =>{
     //console.log(isuniq);
@@ -92,4 +98,8 @@ exports.createAccount=(req,res,next)=>
     })
 
   })
+}
+
+exports.changePwdForm=(req,res,next)=>{
+  res.render('auth/changePwdForm',{path:'auth/changePwdForm',pageTitle:'Modifier mon mdp'});
 }

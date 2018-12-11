@@ -1,0 +1,26 @@
+[data-title]:hover:after {
+  opacity: 1;
+  transition: all 0.1s ease 0.5s;
+  visibility: visible;
+}
+[data-title]:after {
+  content: attr(data-title);
+  background-color:var(--info-tooltip-bg);
+  background-color:var(--info-tooltip-bg);
+  color: var(--info-tooltip-color);
+  font-size: 1.1em;
+  position: absolute;
+  padding: 1em;
+  top: 2em;
+  right: -40%;
+  white-space: nowrap;
+  box-shadow: 1px 1px 3px #222222;
+  opacity: 0;
+  border: 1px solid var(--info-tooltip-color);
+  border-radius:3px;
+  z-index: 99999;
+  visibility: hidden;
+}
+[data-title] {
+  position: relative;
+}

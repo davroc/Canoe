@@ -25,8 +25,15 @@
 }
 :root{
   --header_bg:rgb(45,110,132);
+  /* --header_bg:rgb(194, 110, 110); */
+  /* --header_bg:rgb(120,73,120);
+  --header_bg:rgb(165,82,89); */
+  --element-bg: rgb(225,225,225);
+  --element-shadow: 8px 8px 12px #aaa;
+  --info-tooltip-bg:rgb(184, 184, 184);
+  --info-tooltip-color:black;
+  }
 
-}
 * {
   box-sizing: border-box;
 }
@@ -110,6 +117,7 @@ th
   background:rgb(250,250,245);
   margin-bottom:1em;
   border:1px solid var(--header_bg);
+  box-shadow: var(--element-shadow);
 }
 
 .group-item_title
@@ -120,4 +128,61 @@ th
   padding:0.6em;
   color:white;
   font-size:1.2em;
+}
+
+.btn
+{
+  margin-left:2em;
+}
+
+
+.btn-menu
+{
+  width:90%;
+}
+
+.info-icon
+{
+  background-color:var(--info-tooltip-bg);
+  padding:0.3em;
+  border-radius:1em;
+  width:1.8em;
+  text-align:center;
+  border:1px solid var(--info-tooltip-color);
+  color:var(--info-tooltip-color);
+
+}
+.info-icon title
+{
+  height:5em;
+  font-size:15px;
+  font-weight: 800;
+}
+
+.derive_compar
+{
+  color:darkred;
+  background:rgba(225,200,200,0.3);
+}
+
+/* mise en page datatables */
+
+.dataTables_filter,.dataTables_paginate
+{
+  margin-right:1em;
+}
+
+.dataTables_length,.dataTables_info
+{
+  margin-left:1em;
+}
+
+.page-item a
+{
+  color:var(--header_bg);
+}
+
+.page-item.active .page-link a
+{
+  background:red;
 }

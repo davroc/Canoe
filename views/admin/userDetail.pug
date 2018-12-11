@@ -44,10 +44,12 @@ block styles
                     select.form-control(name="edit_user_admin")
                             option(value=0,selected= (user_data[0].admin == 0 ? true :false)) Non
                             option(value=1,selected= (user_data[0].admin == 1 ? true :false)) Oui
-                
-              .row
-                input.btn.btn-primary.submit_button(type="submit" ,id="submit_maj_user",name="submit_maj_user",value="Mettre a jour" )
-                input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
+              br
+              br
+              .row.justify-content-end
+                .col-md-4
+                  input.btn.btn-primary.submit_button(type="submit" ,id="submit_maj_user",name="submit_maj_user",value="Mettre a jour" )
+                  input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
     script.
       $('#EditUserModal').modal('show')
       $('#submit_maj_user').click(function(){

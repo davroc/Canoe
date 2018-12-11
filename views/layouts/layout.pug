@@ -5,12 +5,14 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         title #{pageTitle}
-        script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ,integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" ,crossorigin="anonymous")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" ,crossorigin="anonymous")
-        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js")
+        script(src="/js/jquery.slim.min.js")
+        script(src="/js/popper.min.js")
+        script(src="/js/bootstrap.bundle.min.js")
+        script(src="/DataTables/datatables.min.js")
         
         link(rel="stylesheet", href="/css/main.css")
-        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/DataTables/datatables.min.css")
         link(rel="stylesheet", href="/open-iconic-master/font/css/open-iconic-bootstrap.min.css")
         
         block styles
@@ -52,30 +54,31 @@ html(lang="en")
                             li.nav-item.dropdown
                                 a.nav-link.dropdown-toggle(href="#",id="DropdownAdmin",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Admin
                                 div.dropdown-menu(aria-labelledby="DropdownAdmin")
-                                    a.dropdown-item(href='/admin/userslist', class=(path === '/admin/userslist' ? 'active' : '')) Liste Utilisateurs
-                                    a.dropdown-item(href="/admin/adduser", class=(path === '/admin/adduser' ? 'active' : '')) Ajout Utilisateur
+                                    a.dropdown-item(href='/admin/userslist', class=(path === '/admin/userslist' ? 'active' : '')) Gérer les utilisateurs
+                                    //- a.dropdown-item(href="/admin/adduser", class=(path === '/admin/adduser' ? 'active' : '')) Ajout Utilisateur
                     
                     ul.nav.navbar-nav.navbar-right
                         if session.isAuthenticated
-                            .btn-group.dropleft
+                            .btn-group
                                 button.btn.btn-outline-info.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") #{session.login}
                                     
                                 div.dropdown-menu.dropdown-menu-right(aria-labelledby="DropdownLogOut")                                  
                                     form.text-center(action="/auth/logout",method="POST")
-
-                                        button.btn.btn-outline-warning(type="submit",name="submit_logOut",value="Logout")
-                                            span.oi.oi-account-logout &nbsp;Logout
-                                            
+                                        button.btn.btn-menu.btn-outline-danger(type="submit",name="submit_logOut",value="Logout")
+                                            span.oi.oi-account-logout &nbsp;Se Deconnecter
+                                    //- .dropdown-divider
+                                    //- form.text-center(action="/auth/changepwd",method="GET")
+                                    //-     button.btn.btn-menu.btn-link(type="submit",name="reset_pwd") Changer mot de passe                                          
                         else
-                            .btn-group.dropleft
+                            .btn-group
                                 button.btn.btn-outline-info.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Se Connecter
                                 div.dropdown-menu.dropdown-menu-right.text-center(aria-labelledby="DropdownLogin")
                                     form.text-center(action="/auth/login",method="GET")
-                                        button.btn.btn-outline-success(type="submit")
+                                        button.btn.btn-menu.btn-outline-success(type="submit")
                                             span.oi.oi-account-login &nbsp; LogIn
                                     .dropdown-divider
                                     form.text-center(action="/auth/createAccount",method="GET")
-                                        button.btn.btn-outline-warning(type="submit") Créer un compte
+                                        button.btn.btn-menu.btn-menu.btn-outline-primary(type="submit") Créer un compte
                                         
         .container-fluid
 

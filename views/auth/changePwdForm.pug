@@ -1,0 +1,19 @@
+extends ../layouts/layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/forms.css")
+
+block content
+    main
+        .row.justify-content-md-center
+            .col-md-6.col-offset-md-3
+                h3.group-item_title Modifier le mot de passe
+                form(action="./changePwd", method="POST")
+                    label(for="pwd_user") Mot de passe actuel
+                    input.form-control(type="password", name="pwd_user",value="",required="required")
+                    label(for="new_pwd_user") Nouveau mot de passe
+                    input.form-control(type="password", name="new_pwd_user",value="",required="required")
+                    label(for="new_pwd_confirm_user") Confirmer nouveau mot de passe
+                    input.form-control(type="password", name="new_pwd_confirm_user",value="",required="required")   
+                    br
+                    button.btn(type="submit") Mettre à jour

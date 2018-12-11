@@ -9,64 +9,92 @@ exports.getCliList =  (req, res, next) => {
 };
 
 exports.getAlarmes =(req,res,next)=>{
-  ParamModel.getParamsList(params=>{  
-      AnalyseModel.getCodesData4pastweek(weeklyCodedata =>{
-        AnalyseModel.getAlarmesDaysHeaders(headers =>{
-          //console.log(headers);
-          AnalyseModel.getRupture(params,rupture =>{
-            if (rupture.length > 0 )
-            {
-              for (var r of rupture)
+  console.log(req.body);
+  ParamModel.getMaxDataInsertionDate(maxdt =>{
+    //console.log(maxdt);
+    ParamModel.getParamsList(params=>{  
+      const profondeur=params.filter(param=>param.param =='prof_histo')[0].value; 
+      const seuil_rupture=params.filter(param=>param.param =='seuil_min_rupture')[0].value; 
+      const profondeur_rupture=params.filter(param=>param.param =='profondeur_rupture')[0].value; 
+      const ecart_type_rupture=params.filter(param=>param.param =='nb_ecart_type_rupture')[0].value; 
+      const profondeur_derive=params.filter(param=>param.param =='profondeur_derive')[0].value; 
+      const pourcentage_min_derive=params.filter(param=>param.param =='pourcentage_min_derive')[0].value; 
+        AnalyseModel.getCodesData4pastweek(maxdt,profondeur,weeklyCodedata =>{
+          AnalyseModel.getAlarmesDaysHeaders(maxdt,headers =>{
+            //console.log(headers);
+            AnalyseModel.getRupture(maxdt,params,rupture =>{
+              if (rupture.length > 0 )
               {
-                console.log(r);
-                for (var w of weeklyCodedata)
+                for (var r of rupture)
                 {
-                  if (w.ERR_CODE == r.ERR_CODE)
-                  {
-                   Object.assign(r,w);
-                  }
-                }
-              }
-            }
-            else
-            {
-              console.log('pas de rupture');
-            }
-            //console.log(rupture);
-            AnalyseModel.getDerive(params,derive =>{
-              if (derive.length > 0 )
-              {             
-                for (var d of derive)
-                {
-                  //console.log(d);
+                  console.log(r);
                   for (var w of weeklyCodedata)
                   {
-                    if (w.ERR_CODE == d.ERR_CODE)
+                    if (w.ERR_CODE == r.ERR_CODE)
                     {
-                     Object.assign(d,w);
+                    Object.assign(r,w);
                     }
                   }
                 }
               }
               else
               {
-                console.log('pas de dérive');
+                console.log('pas de rupture');
               }
+              //console.log(rupture);
+              AnalyseModel.getDerive(maxdt,params,derive =>{
+                if (derive.length > 0 )
+                {             
+                  for (var d of derive)
+                  {
+                    //console.log(d);
+                    for (var w of weeklyCodedata)
+                    {
+                      if (w.ERR_CODE == d.ERR_CODE)
+                      {
+                      Object.assign(d,w);
+                      }
+                    }
+                  }
+                }
+                else
+                {
+                  console.log('pas de dérive');
+                }
 
-              //console.log(derive);
-              console.log(rupture);
-              res.render('analyse/alarmes',{ pageTitle: 'Alarmes', path: '/analyse/alarmes' ,derive:derive,rupture:rupture ,weeklyCodeData:weeklyCodedata ,table_header:headers});
-            });
-          });          
-        }) ;
+                //console.log(derive);
+                console.log(rupture);
+                res.render('analyse/alarmes',{ pageTitle: 'Alarmes',
+                 path: '/analyse/alarmes' ,
+                 fraicheur_donnees:maxdt[0].dt_insertion,
+                 derive:derive,
+                 rupture:rupture ,
+                 weeklyCodeData:weeklyCodedata ,
+                 table_header:headers,
+                 profondeur : profondeur,
+                 seuil_rupture : seuil_rupture,
+                 profondeur_rupture : profondeur_rupture,
+                 ecart_type_rupture : ecart_type_rupture,
+                 profondeur_derive : profondeur_derive,
+                 pourcentage_min_derive : pourcentage_min_derive               
+                });
+              });
+            });          
+          }) ;
+        });
       });
     });
 }
 
 exports.getEvoAno = (req,res,next)=>{
-  AnalyseModel.getEvoAno(evo_ano =>{
+  ParamModel.getMaxDataInsertionDate(maxdt =>{
+    ParamModel.getParamsList(params=>{  
+      const profondeur=params.filter(param=>param.param =='prof_histo')[0].value;  
+    AnalyseModel.getEvoAno(maxdt,profondeur,evo_ano =>{
     //console.log(evo_ano);
-    res.render('analyse/evo_ano',{ pageTitle: 'Evolution des anomalies', path: '/analyse/evo_ano' ,evo_ano:JSON.stringify(evo_ano) })
+    res.render('analyse/evo_ano',{ pageTitle: 'Evolution des anomalies', path: '/analyse/evo_ano' ,evo_ano:JSON.stringify(evo_ano),fraicheur_donnees:maxdt[0].dt_insertion,profondeur:profondeur })
+   });
+  });
   });
 }
 
@@ -83,15 +111,20 @@ exports.getErrCodeDetail=(req,res,next)=>{
   console.log(ErrCode);
 
   AnalyseModel.getListeErrCodes(codes =>{
-    AnalyseModel.getCodeEvo(ErrCode,codeEvo=>{
-      AnalyseModel.getCodeRelatedClis(ErrCode,relatedClis=>{
-        AnalyseModel.getCodeRelatedAlarms(ErrCode,relatedAlarms =>{
-          AnalyseModel.getCodeInfo(ErrCode,codeDetail =>{
-            AnalyseModel.getCodeRelatedTypologies(ErrCode,codeTypos =>{
-           // console.log(codeDetail);
-            res.render('analyse/code_identity',{ pageTitle: 'Focus Code Erreur', path: '/analyse/code_identity',code_list:codes,SelectedCode:ErrCode,code_evo:JSON.stringify(codeEvo),relatedClis:relatedClis,relatedAlarms:relatedAlarms,codeDetail:codeDetail ,Typos:codeTypos })
-             })
+    ParamModel.getMaxDataInsertionDate(maxdt =>{
+      ParamModel.getParamsList(params=>{
+        const profondeur=params.filter(param=>param.param =='prof_histo')[0].value;  
+      AnalyseModel.getCodeEvo(maxdt,profondeur,ErrCode,codeEvo=>{
+        AnalyseModel.getCodeRelatedClis(ErrCode,relatedClis=>{
+          AnalyseModel.getCodeRelatedAlarms(ErrCode,relatedAlarms =>{
+            AnalyseModel.getCodeInfo(ErrCode,codeDetail =>{
+              AnalyseModel.getCodeRelatedTypologies(ErrCode,codeTypos =>{
+            // console.log(codeDetail);
+              res.render('analyse/code_identity',{ pageTitle: 'Focus Code Erreur', path: '/analyse/code_identity',code_list:codes,SelectedCode:ErrCode,code_evo:JSON.stringify(codeEvo),relatedClis:relatedClis,relatedAlarms:relatedAlarms,codeDetail:codeDetail ,Typos:codeTypos,fraicheur_donnees:maxdt[0].dt_insertion ,profondeur:profondeur})
+              })
+            })
           })
+        })
         })
       })
     })

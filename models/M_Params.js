@@ -123,6 +123,18 @@ exports.getCliList  = liste_clis => {
     .catch(err=>{return err});
   }
 
+  exports.getMaxDataInsertionDate = maxdate =>{
+    const sql = 'select distinct DATE_FORMAT(max(dt_insertion),"%Y-%m-%d") as dt_insertion from bios_errorcodes_daily_summary';
+    db.execute(sql)
+    
+    .then(res=>{
+      //console.log(res[0]);
+      maxdate(res[0]);
+    })
+   .catch(err=>{console.log(err)});
+   // console.log(sql); 
+  }
+
   exports.updateCli = (updated_cli_data,updated_cli)=>{
     console.log(updated_cli_data);
     const cli_id=updated_cli_data.cli_id;

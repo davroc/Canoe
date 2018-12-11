@@ -2,18 +2,28 @@ extends ../layouts/layout.pug
 
 block styles
   link(rel="stylesheet", href="/css/cni.css")
-  link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+  link(rel="stylesheet", href="/css/tooltips.css")
 
 block content
     main
       script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js')
-      script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
       script.
           $(document).ready( function () {
-              $('#liste_related_clis').DataTable();
-              $('#liste_related_alarms').DataTable();
-              $('#liste_typos').DataTable();
+            const dataTables_options = {
+                language:{
+                "info":" page _PAGE_ / _PAGES_",
+                "search":"Rechercher",
+                  "lengthMenu": "Afficher _MENU_ enregistrements",
+                  "paginate":{
+                      "next":">",
+                      "previous":"<",
+                    }
+                  }
+                }
+              $('#liste_related_clis').DataTable(dataTables_options);
+              $('#liste_related_alarms').DataTable(dataTables_options);
+              $('#liste_typos').DataTable(dataTables_options);
               $('#get_code_cni').click(function(){
                 const c=$('#errCode').val();
                 //window.location("cni/"+c);
@@ -41,7 +51,7 @@ block content
                       tr
                         td
                           h3
-                            span.badge.badge-primary #{codeDetail[0].ErrorCode}
+                            span.badge #{codeDetail[0].ErrorCode}
                         td #{codeDetail[0].Description_ErrorCode}
                   if Typos.length > 0
                     table#liste_Typos.table.table-striped.table-bordered
@@ -64,9 +74,9 @@ block content
                     table#liste_related_alarms.table.table-bordered
                         thead
                             tr
-                                th TYPE ALARME
-                                th VALEUR
-                                th DATE
+                                th Type Alarme
+                                th Valeur
+                                th Date
                         tbody
                             each alarme in relatedAlarms
                                 tr
@@ -80,6 +90,8 @@ block content
               .group-item
 
                 p.group-item_title Evolution des Tickets
+                  span.oi.oi-info.info-icon.float-right(data-title="Donnees du : "+ fraicheur_donnees +"\n"+"Profondeur de données : "+ profondeur +" jours")
+                  //- span.badge.badge-info Données du #{fraicheur_donnees}
                 canvas(id="myChart")
                   script. 
                     var code_evo = !{code_evo}
@@ -109,10 +121,10 @@ block content
                           table#liste_related_clis.table.table-bordered
                               thead
                                   tr
-                                      th SI
-                                      th CLI
+                                      th Si
+                                      th Incident
                                       th Titre
-                                      th Creation
+                                      th Création
                                       th Etat
                               tbody
                                   each cli in relatedClis

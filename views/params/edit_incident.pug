@@ -8,8 +8,6 @@ block styles
         .modal-content
           .modal-header
             h5.modal-title Editer l'incident
-            button.close(type="button",data-dismiss="modal",aria-label="Close")
-              span(aria-hidden="true") &times
           .modal-body
             form(method="post",action="/params/cli_edit")
               .container-fluid
@@ -52,12 +50,17 @@ block styles
                       option(value='') CHOISIR
                       for resp in liste_resp
                         option(value=resp.entite_responsable,selected=( resp.entite_responsable == cli_data[0].ENTITE_EN_ACTION ? true : false)) #{resp.entite_responsable}
-                    br
-                    br
+                br
+                br
+                .row.justify-content-end
+                  .col-md-4.col-offset-md-8.col-lg-4.col-offset-lg-8.col-sm-6.col-offset-sm-6
                     input.btn.btn-primary.submit_button(type="submit" ,id="submit_edit_incident",name="submit_edit_typo",value="Mettre a jour" )
-                    input.btn.btn-secondary(type="button",data-dismiss="modal",value="Fermer")
+                    input.btn.btn-secondary.modal_close(type="button",data-dismiss="modal",value="Fermer")
     script.
       $('#EditIncidentModal').modal('show')
       $('#submit_edit_incident').click(function(){
         $('#EditIncidentModal').modal('hide')
       })
+      $('.modal_close').on('click', function () {
+        window.location.replace("/params/clis");
+        });

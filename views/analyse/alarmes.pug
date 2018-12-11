@@ -2,58 +2,50 @@ extends ../layouts/layout.pug
 
 block styles
     link(rel="stylesheet", href="/css/cni.css")
-    link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+    link(rel="stylesheet", href="/css/tooltips.css")
+    //- link(rel="stylesheet",href='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
 
 block content
     main
 
-        script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
+        //- script(src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")
 
         script.
             $(document).ready( function () {
-                $('#liste_top').DataTable();
-                $('#liste_derive').DataTable();
+                const dataTables_options = {
+                    columnDefs: [
+                        { targets: [1,9], type: 'num' },
+                    ],
+                    order:[7,'desc'],
+                    language:{
+                    "info":" page _PAGE_ / _PAGES_",
+                    "search":"Rechercher",
+                     "lengthMenu": "Afficher _MENU_ enregistrements",
+                     "paginate":{
+                         "next":">",
+                         "previous":"<",
+                        },
+                    "infoFiltered":" parmi _MAX_ enregistrements",
+                    "zeroRecords": "Aucun enregistrement correspondant",
+                    "thousands": "'"
+
+                    }
+                }
+
+                $('#liste_top').DataTable(dataTables_options);
+                $('#liste_derive').DataTable(dataTables_options);
+                $('#liste_rupture').DataTable(dataTables_options);
             } );
-        
-        .group-item
-            h3.group-item_title Top
-            br
-            .table-responsive
-                table#liste_top.table.table-hover.table-bordered
-                    thead
-                        tr
-                            th CODE ERREUR
-                            th #{table_header[0].day7}
-                            th #{table_header[0].day6}
-                            th #{table_header[0].day5}
-                            th #{table_header[0].day4}
-                            th #{table_header[0].day3}
-                            th #{table_header[0].day2}
-                            th #{table_header[0].day1}
-                            th Stock
-                            th Moyenne
-                    tbody
-                        for code in weeklyCodeData 
-                            tr
-                                td #{code.ERR_CODE}
-                                td #{code.day7}
-                                td #{code.day6}
-                                td #{code.day5}
-                                td #{code.day4}
-                                td #{code.day3}
-                                td #{code.day2}
-                                td #{code.day1}
-                                td #{code.stock}
-                                td #{code.moyenne}
-        .group-item
-            h3.group-item_title Rupture
-            br
-            if rupture.length > 0
+        .container-fluid
+            h4 Données du #{fraicheur_donnees}
+            .group-item
+                h3.group-item_title Top
+                br
                 .table-responsive
-                    table#liste_rupture.table.table-hover.table-bordered
+                    table#liste_top.table.table-hover.table-bordered
                         thead
                             tr
-                                th CODE ERREUR
+                                th Code Erreur
                                 th #{table_header[0].day7}
                                 th #{table_header[0].day6}
                                 th #{table_header[0].day5}
@@ -61,52 +53,88 @@ block content
                                 th #{table_header[0].day3}
                                 th #{table_header[0].day2}
                                 th #{table_header[0].day1}
-                                th moyenne
-                                th ecart type
-
+                                th Stock 
+                                    span.oi.oi-info.info-icon.float-right(data-title="Calculé  sur "+ profondeur +" jours")
+                                th Moyenne
+                                    span.oi.oi-info.info-icon.float-right(data-title="Calculée  sur "+ profondeur +" jours")
                         tbody
-                            for r in rupture 
+                            for code in weeklyCodeData 
                                 tr
-                                    td #{r.ERR_CODE}
-                                    td #{r.day7}
-                                    td #{r.day6}
-                                    td #{r.day5}
-                                    td #{r.day4}
-                                    td #{r.day3}
-                                    td #{r.day2}
-                                    td #{r.day1}
-                                    td #{r.moy}                    
-                                    td #{r.ecart}                    
-
-        .group-item
-            h3.group-item_title Derive
-            br
-            if derive.length > 0
-                .table-responsive
-                    table#liste_derive.table.table-hover.table-bordered
-                        thead
-                            tr
-                                th CODE ERREUR
-                                th #{derive[0].dt_comparaison}
-                                th #{table_header[0].day7}
-                                th #{table_header[0].day6}
-                                th #{table_header[0].day5}
-                                th #{table_header[0].day4}
-                                th #{table_header[0].day3}
-                                th #{table_header[0].day2}
-                                th #{table_header[0].day1}
-                                th derive
-
-                        tbody
-                            for d in derive 
+                                    td #{code.ERR_CODE}
+                                    td #{code.day7}
+                                    td #{code.day6}
+                                    td #{code.day5}
+                                    td #{code.day4}
+                                    td #{code.day3}
+                                    td #{code.day2}
+                                    td #{code.day1}
+                                    td #{code.stock}
+                                    td #{code.moyenne}
+            .group-item
+                h3.group-item_title Rupture
+                br
+                if rupture.length > 0
+                    .table-responsive
+                        table#liste_rupture.table.table-hover.table-bordered
+                            thead
                                 tr
-                                    td #{d.ERR_CODE}
-                                    td #{d.data_dt_comparaison}
-                                    td #{d.day7}
-                                    td #{d.day6}
-                                    td #{d.day5}
-                                    td #{d.day4}
-                                    td #{d.day3}
-                                    td #{d.day2}
-                                    td #{d.day1}
-                                    td #{d.derive}                            
+                                    th Code Erreur
+                                    th #{table_header[0].day7}
+                                    th #{table_header[0].day6}
+                                    th #{table_header[0].day5}
+                                    th #{table_header[0].day4}
+                                    th #{table_header[0].day3}
+                                    th #{table_header[0].day2}
+                                    th #{table_header[0].day1}
+                                    th Moyenne
+                                        span.oi.oi-info.info-icon.float-right(data-title="Calculé  sur "+ profondeur +" jours")
+                                    th Ecart-type
+                                        span.oi.oi-info.info-icon.float-right(data-title="Calculé  avec "+ ecart_type_rupture +" ecart types")
+
+                            tbody
+                                for r in rupture 
+                                    tr
+                                        td #{r.ERR_CODE}
+                                        td #{r.day7}
+                                        td #{r.day6}
+                                        td #{r.day5}
+                                        td #{r.day4}
+                                        td #{r.day3}
+                                        td #{r.day2}
+                                        td #{r.day1}
+                                        td #{r.moy}                    
+                                        td #{r.ecart}                    
+
+            .group-item
+                h3.group-item_title Derive
+                br
+                if derive.length > 0
+                    .table-responsive
+                        table#liste_derive.table.table-hover.table-bordered
+                            thead
+                                tr
+                                    th Code Erreur
+                                    th #{table_header[0].day7}
+                                    th #{table_header[0].day6}
+                                    th #{table_header[0].day5}
+                                    th #{table_header[0].day4}
+                                    th #{table_header[0].day3}
+                                    th #{table_header[0].day2}
+                                    th #{table_header[0].day1}
+                                    th #{derive[0].dt_comparaison}
+                                    th Dérive
+                                        span.oi.oi-info.info-icon.float-right(data-title="Calculée  sur "+ profondeur_derive +" jours")   
+
+                            tbody
+                                for d in derive 
+                                    tr
+                                        td #{d.ERR_CODE}
+                                        td #{d.day7}
+                                        td #{d.day6}
+                                        td #{d.day5}
+                                        td #{d.day4}
+                                        td #{d.day3}
+                                        td #{d.day2}
+                                        td #{d.day1}
+                                        td.derive_compar #{d.data_dt_comparaison}
+                                        td #{d.derive}                            
