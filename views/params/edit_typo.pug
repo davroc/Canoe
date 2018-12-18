@@ -25,8 +25,10 @@ block styles
               br
               .row.justify-content-end
                   .col-md-4.col-offset-md-8.col-lg-4.col-offset-lg-8.col-sm-6.col-offset-sm-6
-                    input.btn.btn-primary.submit_button(type="submit" ,id="submit_edit_typo",name="submit_edit_typo",value="Mettre a jour" )
-                    input.btn.btn-secondary.modal_close(type="button",data-dismiss="modal",value="Fermer")
+                    .float-right
+                      input.btn.btn-primary.submit_button(type="submit" ,id="submit_edit_typo",name="submit_edit_typo",value="Mettre a jour" )
+                      button.btn.btn-secondary.modal_close(data-dismiss="modal")
+                        span.oi.oi-x(title="fermer la fenetre")
     script.
       $('#EditTypoModal').modal('show')
       $('#submit_edit_typo').click(function(){

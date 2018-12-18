@@ -24,12 +24,16 @@ var watcher = FileWatcher.watch(__IMPORT_DIR, {
   .on('add', path => {
       console.log(`File ${path} has been added`);    
       ImportDataController.Import(path);
+     // ReportingController.dailyAlarmReporting();
     })
 //   .on('change', path => {
 //       console.log(`File ${path} has been changed`);
 //       //ImportDataController.Import(path);
 //     })
-  .on('unlink', path => console.log(`File ${path} has been removed`));
+  .on('unlink', path => {
+    console.log('LAncement du Reporting....');
+    ReportingController.dailyAlarmReporting();  
+    console.log(`File ${path} has been removed`)});
 
 
 //scheduler for reportings
@@ -37,17 +41,17 @@ var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [new schedule.Range(1, 5)];
-rule.hour = 9;
-rule.minute = 36;
+rule.hour = 19;
+rule.minute = 17;
  
 var j = schedule.scheduleJob(rule, function(){
     console.log('planif');
     ReportingController.dailyAlarmReporting();
 });
 
-
-
 const db=require('./util/db');
+
+//ReportingController.dailyAlarmReporting(); 
 
 
 const app = express();
@@ -72,6 +76,8 @@ app.use(function(req,res,next){
 });
 
 
+//routes ***********************************************************************
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRoutes); 
@@ -81,7 +87,6 @@ app.use('/auth',authRoutes);
 app.use('/' ,(req,res,next)=>{
     res.redirect('/analyse/alarmes');
 })
-
 
 app.use((req, res, next) => {
     res.status(404).render('404', {pageTitle: 'Page Not Found'});

@@ -38,7 +38,9 @@ block content
                                         td #{user.admin == 1 ? 'Oui' : 'Non'}
                                         td #{user.is_active == 1 ? 'Oui' : 'Non'}
                                         td
-                                            a.btn.btn-outline-primary(href="/admin/user_edit/"+user.login_user) Modifier
-                                            a.btn.btn-outline-danger(href="/admin/delete_user/"+user.login_user) Supprimer
+                                            a.btn.btn-outline-primary(href="/admin/user_edit/"+user.login_user)
+                                                span.oi.oi-pencil(title="Modifier")
+                                            a.btn.btn-outline-danger(href="/admin/delete_user/"+user.login_user)
+                                                span.oi.oi-trash(title="Supprimer")
                 else
                     h1 Pas d utilisateurs

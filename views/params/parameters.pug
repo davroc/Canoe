@@ -18,6 +18,7 @@ block content
 
                 console.log(param_id);
                 console.log(param_newValue);
+                $.post( "/params/param_edit", { id_param: param_id, value_param:param_newValue })
             })
             });
 
@@ -53,7 +54,8 @@ block content
                                                                 input(type="hidden",value=param.id_param)
                                                                 input(type="text",value=param.value)
                                                             td
-                                                                a.maj_param.btn.btn-outline-primary Mettre a jour
+                                                                a.maj_param.btn.btn-outline-primary
+                                                                    span.oi.oi-reload(title="Mettre a jour")
                                                         
                         else
                           h1 Pas de parametres  
@@ -81,7 +83,8 @@ block content
                                                                 input(type="hidden",value=param.id_param)
                                                                 input(type="text",value=param.value)
                                                             td
-                                                                a.btn.btn-outline-primary.maj_param Mettre a jour
+                                                                a.btn.btn-outline-primary.maj_param
+                                                                    span.oi.oi-reload(title="Mettre a jour")
                                                     
                       else
                         h1 Pas de parametres  

@@ -9,7 +9,7 @@ exports.getCliList =  (req, res, next) => {
 };
 
 exports.getAlarmes =(req,res,next)=>{
-  console.log(req.body);
+  //console.log(req.body);
   ParamModel.getMaxDataInsertionDate(maxdt =>{
     //console.log(maxdt);
     ParamModel.getParamsList(params=>{  
@@ -19,6 +19,7 @@ exports.getAlarmes =(req,res,next)=>{
       const ecart_type_rupture=params.filter(param=>param.param =='nb_ecart_type_rupture')[0].value; 
       const profondeur_derive=params.filter(param=>param.param =='profondeur_derive')[0].value; 
       const pourcentage_min_derive=params.filter(param=>param.param =='pourcentage_min_derive')[0].value; 
+      
         AnalyseModel.getCodesData4pastweek(maxdt,profondeur,weeklyCodedata =>{
           AnalyseModel.getAlarmesDaysHeaders(maxdt,headers =>{
             //console.log(headers);
@@ -61,12 +62,13 @@ exports.getAlarmes =(req,res,next)=>{
                 {
                   console.log('pas de dérive');
                 }
-
+                var auj=new Date().toLocaleDateString('fr-FR');
                 //console.log(derive);
-                console.log(rupture);
+                //console.log(rupture);
                 res.render('analyse/alarmes',{ pageTitle: 'Alarmes',
                  path: '/analyse/alarmes' ,
                  fraicheur_donnees:maxdt[0].dt_insertion,
+                 auj : auj,
                  derive:derive,
                  rupture:rupture ,
                  weeklyCodeData:weeklyCodedata ,
@@ -108,7 +110,7 @@ exports.getErrCodeDetail=(req,res,next)=>{
   
   const ErrCode=req.params.code;
 
-  console.log(ErrCode);
+  //console.log(ErrCode);
 
   AnalyseModel.getListeErrCodes(codes =>{
     ParamModel.getMaxDataInsertionDate(maxdt =>{
@@ -119,9 +121,22 @@ exports.getErrCodeDetail=(req,res,next)=>{
           AnalyseModel.getCodeRelatedAlarms(ErrCode,relatedAlarms =>{
             AnalyseModel.getCodeInfo(ErrCode,codeDetail =>{
               AnalyseModel.getCodeRelatedTypologies(ErrCode,codeTypos =>{
-            // console.log(codeDetail);
-              res.render('analyse/code_identity',{ pageTitle: 'Focus Code Erreur', path: '/analyse/code_identity',code_list:codes,SelectedCode:ErrCode,code_evo:JSON.stringify(codeEvo),relatedClis:relatedClis,relatedAlarms:relatedAlarms,codeDetail:codeDetail ,Typos:codeTypos,fraicheur_donnees:maxdt[0].dt_insertion ,profondeur:profondeur})
-              })
+                AnalyseModel.getrResolutioninLastDays(ErrCode,maxdt,Resolution=>{
+                console.log(Resolution);
+                res.render('analyse/code_identity',{ pageTitle: 'Focus Code Erreur', 
+                path: '/analyse/code_identity',
+                code_list:codes,
+                SelectedCode:ErrCode,
+                code_evo:JSON.stringify(codeEvo),
+                relatedClis:relatedClis,
+                relatedAlarms:relatedAlarms,
+                codeDetail:codeDetail,
+                Typos:codeTypos,
+                fraicheur_donnees:maxdt[0].dt_insertion ,
+                profondeur:profondeur,
+                resolutionData: Resolution})
+                })
+             })
             })
           })
         })

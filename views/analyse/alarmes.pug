@@ -14,7 +14,7 @@ block content
             $(document).ready( function () {
                 const dataTables_options = {
                     columnDefs: [
-                        { targets: [1,9], type: 'num' },
+                        { targets: [1,9], type: 'num-fmt' },
                     ],
                     order:[7,'desc'],
                     language:{
@@ -37,7 +37,13 @@ block content
                 $('#liste_rupture').DataTable(dataTables_options);
             } );
         .container-fluid
-            h4 Données du #{fraicheur_donnees}
+            if fraicheur_donnees == auj 
+                h5(class='freshdata')
+                    span.oi.oi-check &nbsp; &nbsp;Données du #{fraicheur_donnees}
+            else
+                h5(class='olderdata')
+                    span.oi.oi-warning &nbsp; &nbsp;Données du #{fraicheur_donnees}
+            //- h5(class= (fraicheur_donnees == auj ? 'freshdata':'olderdata')) Données du #{fraicheur_donnees}
             .group-item
                 h3.group-item_title Top
                 br

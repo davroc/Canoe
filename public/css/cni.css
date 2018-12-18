@@ -23,3 +23,34 @@
   line-height:24vh;
   font-weight: bolder;
 }
+.no-item-message span
+{
+  width:30px;
+}
+
+.lateral-menu
+{
+  position:absolute;
+  left:100vw;
+  height:90%;
+  overflow-y: scroll;
+  width:1px;
+  background:rgba(0,0,0,0.6);
+  z-index:2000;
+  transition-duration: 1.1s;
+  color:white;
+
+}
+.lateral-menu.open
+{
+left:64vw;
+width:35vw;
+}
+
+.header_nb_tickets
+{
+  background:rgba(255,255,255,0.5);
+  BOrder-radius:3px;
+  width:15em;
+  padding:5px;
+}

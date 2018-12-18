@@ -40,6 +40,7 @@ router.get('/cli_add',paramController.addCli);
 
 // app params
 router.get('/parametres',paramController.getParams)
+router.post('/param_edit',paramController.updateParam)
 
 
 //exports.routes = router;

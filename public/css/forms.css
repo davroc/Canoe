@@ -48,3 +48,15 @@ label
   background:red;
   color:white;
 }
+
+
+#login-div
+{
+  margin : 0 auto;
+  width:20em;
+  vertical-align: middle;
+  border:2px solid var(--header_bg);
+  padding:2em;
+  top:20em;
+  border-radius:1em;
+}

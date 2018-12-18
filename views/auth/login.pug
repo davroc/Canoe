@@ -5,11 +5,13 @@ block styles
 
 block content
     main
-        .row
-            .col-md-4.col-md-offset-4
+
+        div(id='login-div')
             form(action="./login", method="POST")
                 label(for="login_user") Login
                 input.form-control(type="text", name="login_user",value="")
                 label(for="pwd_user") Mot de Passe
                 input.form-control(type="password", name="pwd_user",value="")
-                button.btn(type="submit") Se connecter
+                br
+                br
+                button.btn.btn-primary(type="submit") Se connecter

@@ -106,6 +106,22 @@ exports.getParams =(req,res,next)=>{
   })
 }
 
+exports.updateParam =(req,res,next)=>{
+  ParamModel.updateParam(req,updatedParam =>{
+    console.log(updatedParam);
+    if (updatedParam[0].affectedRows >0)
+    {
+      console.log('ok');
+      res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/params/parametres',Message:'Le paramètre a été correctement modifié !'})
+    }
+    else
+    {
+      res.render('notifications/maj_ko_modal',{pageTitle:'Erreur de mise a jour',returnPath:'/params/parametres',Message:'Le paramètre n\'a pas pu etre modifié !'})
+    }
+
+  })
+}
+
 //tickets ************************************************************************************************************
 
 exports.getCliList =  (req, res, next) => {

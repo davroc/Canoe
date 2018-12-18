@@ -96,6 +96,18 @@ exports.getParamsList = liste_params =>{
  .catch(err=>{return err});  
 }
 
+exports.updateParam= (paramData,paramUpdated) =>{
+  const id=paramData.body.id_param;
+  const val=paramData.body.value_param;
+
+  console.log(val);
+  db.execute('update conf_bios_params set value ="'+ val +'" where id_param='+ id +'')
+  .then(res=>{
+    paramUpdated(res);
+  })
+ .catch(err=>{console.log(err) });  
+}
+
 //tickets
 
 exports.getCliList  = liste_clis => {

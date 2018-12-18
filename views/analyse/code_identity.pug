@@ -21,25 +21,66 @@ block content
                     }
                   }
                 }
+              const dataTables_alarms_options = {
+                language:{
+                "info":" page _PAGE_ / _PAGES_",
+                "search":"Rechercher",
+                  "lengthMenu": "Afficher _MENU_ enregistrements",
+                  "paginate":{
+                      "next":">",
+                      "previous":"<",
+                    }
+                  },
+                  order:[[2,'desc']]
+                }
               $('#liste_related_clis').DataTable(dataTables_options);
-              $('#liste_related_alarms').DataTable(dataTables_options);
+              $('#liste_related_alarms').DataTable(dataTables_alarms_options);
               $('#liste_typos').DataTable(dataTables_options);
-              $('#get_code_cni').click(function(){
+              $('#errCode').on('change',function(){
                 const c=$('#errCode').val();
-                //window.location("cni/"+c);
-                $(location).attr('href',"/analyse/cni/"+c);
+                if (c != "")
+                {
+                  //window.location("cni/"+c);
+                  $(location).attr('href',"/analyse/cni/"+c);                
+                }
+              })
+              $('.view_detail').click(function(){
+                $(".lateral-menu").toggleClass('open');
               })
           } );
 
       .container-fluid
+        .lateral-menu
+          .container-fluid
+            br
+            if SelectedCode
+              h5 [ #{codeDetail[0].ErrorCode} ] Evolution nombre de tickets ( 5 derniers jours)
+              br
+              if resolutionData.length > 0 
+                each pastDay in resolutionData
+                  if pastDay.length > 0
+                    br
+                    h6.header_nb_tickets Nb Tickets du #{pastDay[0].dt}
+                    .row
+                      .col-md-11
+                        .table-responsive
+                          table.table.table-bordered
+                            tr
+                              each dayD in pastDay
+                                th #{dayD.dt_insertion}
+                            tr
+                              each day in pastDay
+                                td #{day.nb_tickets}
+          
         if code_list.length > 0
         .row.div_code_selecteur
           .col
             span Selectionner le code:
             select.code_selecteur(name='errCode',id='errCode')
+              option(value="") Choisir
               each code in code_list
                 option(value=code.ErrorCode,selected=(code.ErrorCode === SelectedCode ? true : false)) #{code.ErrorCode}
-            input.btn.btn-default(type='button',value='Afficher',id='get_code_cni')
+            //- input.btn.btn-default(type='button',value='Afficher',id='get_code_cni')
 
         if SelectedCode
           .row
@@ -84,12 +125,15 @@ block content
                                     td #{alarme.flag_val}
                                     td #{alarme.date_flag}                                    
                 else
-                    .no-item-message pas d alarme
+                  h1.no-item-message 
+                     span.oi.oi-ban(title="pas d alarme enregistrée")
           .row
             .col-md-6
               .group-item
 
                 p.group-item_title Evolution des Tickets
+                  a.btn.view_detail 
+                    span.oi.oi-bar-chart.info-icon(title='Voir les variations des derniers jours')
                   span.oi.oi-info.info-icon.float-right(data-title="Donnees du : "+ fraicheur_donnees +"\n"+"Profondeur de données : "+ profondeur +" jours")
                   //- span.badge.badge-info Données du #{fraicheur_donnees}
                 canvas(id="myChart")
@@ -135,4 +179,5 @@ block content
                                           td #{cli.DATE_CREATION}
                                           td #{cli.ETAT}                                      
                     else
-                      .no-item-message pas de clis
+                      h1.no-item-message 
+                        span.oi.oi-ban(title="pas de ticket enregistré")

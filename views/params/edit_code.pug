@@ -20,9 +20,11 @@ block styles
                   br
                   br
               .row.justify-content-end
-                .col-md-4            
-                  input.btn.btn-primary.submit_button(type="submit" ,id="submit_maj_code",name="submit_maj_code",value="Mettre a jour" )
-                  input.btn.btn-secondary.modal_close(type="button",data-dismiss="modal",value="Fermer")
+                .col-md-4      
+                  .float-right      
+                    input.btn.btn-primary.submit_button(type="submit" ,id="submit_maj_code",name="submit_maj_code",value="Mettre a jour" )
+                    button.btn.btn-secondary.modal_close(data-dismiss="modal")
+                      span.oi.oi-x(title="fermer la fenetre")
     script.
       $('#EditCodeModal').modal('show')
       $('#submit_maj_code').click(function(){

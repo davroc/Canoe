@@ -16,7 +16,7 @@
   white-space: nowrap;
   box-shadow: 1px 1px 3px #222222;
   opacity: 0;
-  border: 1px solid var(--info-tooltip-color);
+  border: 2px solid var(--info-tooltip-color);
   border-radius:3px;
   z-index: 99999;
   visibility: hidden;

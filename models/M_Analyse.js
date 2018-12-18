@@ -1,21 +1,5 @@
 const db=require('../util/db');
-const Mailer = require ('nodemailer');
 
-let transporter = Mailer.createTransport( {
-  host: 'mail-0092.sfr.com',
-  port: 25,
-  secure: false, // upgrade later with STARTTLS
-
-})
-var message = {
-  from: 'supporttest@sfr.com',
-  to: 'david.roche.prestataire@sfr.com',
-  subject: 'Message title',
-  text: 'Plaintext version of the message',
-  html: '<p>HTML version of the message</p>'
-};
-
-//transporter.sendMail(message);
 
 exports.getCliList  = liste_clis => {
  // db.execute('SELECT CLI,CODE_ERREUR, from cli')
@@ -39,7 +23,7 @@ exports.getCliList  = liste_clis => {
    AVG(if(daily.dt between subdate("${refdate[0].dt_insertion}",${profondeur}) and subdate("${refdate[0].dt_insertion}",1) ,daily.nb_tickets,0)) as moyenne
    from errorcodes as code left join bios_errorcodes_daily_summary as daily 
    on code.Errorcode = daily.ERR_CODE
-   where daily.dt_insertion=CURRENT_DATE
+   where daily.dt_insertion="${refdate[0].dt_insertion}"
    group by code.ErrorCode
    order by day1 desc`
 
@@ -182,4 +166,57 @@ exports.getCliList  = liste_clis => {
       relatedAlarms(res[0]);
     })
     .catch(err=>{return err});
+  }
+
+  exports.getrResolutioninLastDays=(code,maxdate,Resolution)=>{
+    maxdate= maxdate[0].dt_insertion;
+    let result=[];
+    sql=`SELECT ERR_CODE,DATE_FORMAT(dt,"%Y-%m-%d") dt,DATE_FORMAT(dt_insertion,"%Y-%m-%d") dt_insertion,nb_tickets FROM bios_errorcodes_daily_summary 
+          WHERE ERR_CODE='${code}' and dt=subdate('${maxdate}',1)
+          and dt_insertion between subdate('${maxdate}',7) and '${maxdate}'`;
+          //console.log(sql);
+    db.execute(sql)
+    .then(res=>{
+        
+        result.push(res[0]);
+        sql=`SELECT ERR_CODE,DATE_FORMAT(dt,"%Y-%m-%d") dt,DATE_FORMAT(dt_insertion,"%Y-%m-%d") dt_insertion,nb_tickets FROM bios_errorcodes_daily_summary 
+        WHERE ERR_CODE='${code}' and dt=subdate('${maxdate}',2)
+        and dt_insertion between subdate('${maxdate}',7) and '${maxdate}'`;
+        
+        db.execute(sql)   
+        .then(res=>{
+          
+          result.push(res[0]);
+          sql=`SELECT ERR_CODE,DATE_FORMAT(dt,"%Y-%m-%d") dt,DATE_FORMAT(dt_insertion,"%Y-%m-%d") dt_insertion,nb_tickets FROM bios_errorcodes_daily_summary 
+          WHERE ERR_CODE='${code}' and dt=subdate('${maxdate}',3)
+          and dt_insertion between subdate('${maxdate}',7) and '${maxdate}'`;
+          
+          db.execute(sql)
+          .then(res=>{
+          
+            result.push(res[0]);
+            sql=`SELECT ERR_CODE,DATE_FORMAT(dt,"%Y-%m-%d") dt,DATE_FORMAT(dt_insertion,"%Y-%m-%d") dt_insertion,nb_tickets FROM bios_errorcodes_daily_summary 
+            WHERE ERR_CODE='${code}' and dt=subdate('${maxdate}',4)
+            and dt_insertion between subdate('${maxdate}',7) and '${maxdate}'`;
+            
+            db.execute(sql)
+            .then(res=>{
+
+              result.push(res[0]);
+              sql=`SELECT ERR_CODE,DATE_FORMAT(dt,"%Y-%m-%d") dt,DATE_FORMAT(dt_insertion,"%Y-%m-%d") dt_insertion,nb_tickets FROM bios_errorcodes_daily_summary 
+              WHERE ERR_CODE='${code}' and dt=subdate('${maxdate}',5)
+              and dt_insertion between subdate('${maxdate}',7) and '${maxdate}'`;
+              
+              db.execute(sql)
+              .then(res=>{
+
+                result.push(res[0]);          
+                console.log(result);
+                Resolution(result);
+              })
+            })
+          })
+        })   
+    })
+    .catch(err=>{console.log(err)});
   }
