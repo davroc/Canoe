@@ -5,15 +5,61 @@ block styles
 
 block content
     main
+
+        script.
+            $(document).ready( function () {
+                $('#pwd_user').blur(function(){
+                    if ($('#pwd_user').val() !='')
+                    {
+                        let pwd = $('#pwd_user').val();
+                       
+                        $.post( "/auth/checkPwd", { pwd:pwd})
+                        .done(function (data){
+                            //console.log(data);
+                            if (data !=='')
+                            {
+                                $("#changePwdErrors").empty().append(data);
+                            }
+                            else
+                            //  le pwd est bon 
+                            {
+                                $("#submit_maj_pwd").attr('disabled',false);
+                            }
+                        })
+                    }
+                })
+                $('#pwd_user').focus(function(){
+                     $("#changePwdErrors").empty();
+                })
+
+                $('#new_pwd_confirm_user').blur(function(){
+                   // console.log(#new_pwd_confirm_user').val(),'-',)
+                    if ( $('#new_pwd_confirm_user').val() !== $('#new_pwd_user').val() )
+                    {
+                         $("#changePwdErrors").empty().append('Les 2 mots de passe ne correspondent pas');
+                         $("#submit_maj_pwd").attr('disabled',true);
+                    }
+                    else
+                    {
+                         $("#changePwdErrors").empty();
+                        $("#submit_maj_pwd").attr('disabled',false);
+                    }
+                })
+            })
         .row.justify-content-md-center
             .col-md-6.col-offset-md-3
                 h3.group-item_title Modifier le mot de passe
+                div(id='changePwdErrors')
+                if errorMessage
+                    p.errorMessage
+                         span.oi.oi-circle-x  #{errorMessage}
+
                 form(action="./changePwd", method="POST")
                     label(for="pwd_user") Mot de passe actuel
-                    input.form-control(type="password", name="pwd_user",value="",required="required")
+                    input.form-control(type="password", id="pwd_user",name="pwd_user",value="",required="required")
                     label(for="new_pwd_user") Nouveau mot de passe
-                    input.form-control(type="password", name="new_pwd_user",value="",required="required")
+                    input.form-control(type="password", id="new_pwd_user",name="new_pwd_user",value="",required="required")
                     label(for="new_pwd_confirm_user") Confirmer nouveau mot de passe
-                    input.form-control(type="password", name="new_pwd_confirm_user",value="",required="required")   
+                    input.form-control(type="password", id="new_pwd_confirm_user",name="new_pwd_confirm_user",value="",required="required")   
                     br
-                    button.btn(type="submit") Mettre à jour
+                    button.btn(type="submit",id="submit_maj_pwd",disabled="disabled") Mettre à jour

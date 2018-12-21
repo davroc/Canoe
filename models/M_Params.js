@@ -45,10 +45,10 @@ exports.updateCode = (updated_code_data,updated_code)=>{
 //typologies
 
 exports.getTypoList = liste_typos =>{
-  db.execute('select * from bios_typologies')
+  db.execute('select a.*,b.* from bios_typologies a left join requetes b on a.requete_id = b.id_requete')
   .then(res=>{
     liste_typos(res[0]);
-   // console.log(liste_clis);
+   //console.log(liste_typos);
   })
  .catch(err=>{return err});
 }

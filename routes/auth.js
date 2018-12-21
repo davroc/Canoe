@@ -13,6 +13,8 @@ router.post('/logout', AuthController.postLogout);
 router.get('/createAccount', AuthController.createAccountForm);
 router.post('/createAccount', check ('mail_user').isEmail(), AuthController.createAccount);
 router.get('/changepwd',AuthController.changePwdForm);
+router.post('/changePwd',AuthController.changePwd);
+router.post('/checkPwd',AuthController.checkPwd);
 
 
 module.exports = router;

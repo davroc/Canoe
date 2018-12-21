@@ -47,6 +47,7 @@ block content
                                                 th Collecte Impactee
                                                 th Responsabilité
                                                 th Requete
+                                                th Diffusion
                                                 th Modifier
 
                                         tbody
@@ -57,7 +58,8 @@ block content
                                                     td #{typo.source_potentielle}
                                                     td #{typo.collecte_impactee}
                                                     td #{typo.responsabilite}
-                                                    td #{typo.requete_id}
+                                                    td #{typo.nom_requete}
+                                                    td #{typo.liste_diffusion_requete}
                                                     
                                                     td
                                                         a.btn.btn-outline-primary(href="/params/typo_edit/"+typo.id_typologie)

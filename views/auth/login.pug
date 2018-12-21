@@ -7,6 +7,10 @@ block content
     main
 
         div(id='login-div')
+            div(id="error-login-div")
+            if errorMessage
+                p.errorMessage
+                    span.oi.oi-circle-x  #{errorMessage}
             form(action="./login", method="POST")
                 label(for="login_user") Login
                 input.form-control(type="text", name="login_user",value="")

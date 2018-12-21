@@ -21,6 +21,20 @@ exports.check_mailIsUnknown =(mail,isUniq)=>{
  .catch(err=>{console.log(err) });
 }
 
+exports.updatePwdUser = (user_pwd,user_login,isUpdated)=>
+{
+  bcrypt.hash(user_pwd,12).then(hashedPwd=>{
+
+    sql='update users set pwd_user = "'+ hashedPwd +'" where login_user = "'+ user_login +'"';
+    console.log(sql);
+    db.execute(sql)
+    .then(res=>{
+      isUpdated(res);
+    })
+   .catch(err=>{console.log(err) });
+  });
+}
+
 exports.createUser = (user_data,isCreated)=>{
  
   bcrypt.hash(user_data.pwd_user,12).then(hashedPwd=>{

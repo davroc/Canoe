@@ -13,18 +13,46 @@ exports.getLogin=(req,res,next)=>{
   res.render('auth/login',{path:'auth/login',pageTitle:'Login'});
 }
 
+exports.checkPwd =(req,res,next)=>{
+
+     l = req.session.login;
+     p = req.body.pwd;
+     console.log(p);
+
+     AuthModel.checkUser(l,auth=>{
+      if(auth.length > 0)
+      {
+        console.log('comparing passwords');
+        bcrypt.compare(p,auth[0].pwd_user).then(doMatch =>{
+
+          if(doMatch)
+          {
+             res.send('');
+               
+          }
+          else
+          {
+            console.log('nope');
+            res.send('le mot de passe est incorrect');
+          }
+      })
+    }
+    })
+}
+
 exports.postLogin=(req,res,next)=>{
-  //console.log('posting creds');
   const l=req.body.login_user;
   const p =req.body.pwd_user;
+  
   AuthModel.checkUser(l,auth=>{
     if(auth.length > 0)
     {
       //console.log(auth[0].pwd_user);
       bcrypt.compare(p,auth[0].pwd_user).then(doMatch =>{
+
         if(doMatch)
         {
-          console.log('ok');
+           console.log('ok');
           req.session.isAuthenticated=true;
           req.session.login=auth[0].login_user;
           req.session.isAdmin = (auth[0].admin== 1 ? true : false) ;
@@ -38,14 +66,15 @@ exports.postLogin=(req,res,next)=>{
         else
         {
           console.log('mdp ne correspond pas');
-          res.redirect('/auth/login');
+          res.render('auth/login',{path:'auth/login',pageTitle:'Login',errorMessage: 'Erreur de mdp'});
         }    
       }).catch(err=>{console.log(err)});
     }
     else
     {
       console.log('le login n a pas ete trouvé')
-      res.redirect('/auth/login');
+      //res.redirect('/auth/login');
+      res.render('auth/login',{path:'auth/login',pageTitle:'Login',errorMessage: 'Erreur de login'});
     }
     });
   
@@ -102,4 +131,19 @@ exports.createAccount=(req,res,next)=>
 
 exports.changePwdForm=(req,res,next)=>{
   res.render('auth/changePwdForm',{path:'auth/changePwdForm',pageTitle:'Modifier mon mdp'});
+}
+
+exports.changePwd=(req,res,next)=>{
+  const newPwd = req.body.new_pwd_user;
+  const login = req.session.login;
+  AuthModel.updatePwdUser(newPwd ,login, passUpdated=>{
+    console.log(passUpdated);
+    if (passUpdated[0].affectedRows == 1)
+    {
+      console.log('ok changed');
+        req.session.destroy((err)=>{
+        res.render('notifications/maj_success_modal',{pageTitle:'Succes',returnPath:'/auth/login',Message:'Le mot de passe a bien été modifié , vous allez etre redirigé vers la page de login'})
+      })
+    }
+  })
 }

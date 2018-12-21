@@ -25,6 +25,8 @@
 }
 :root{
   --header_bg:rgb(45,110,132);
+  --header_bg:rgb(75,140,162);
+  --header_bg:rgb(121,152,183);
   /* --header_bg:rgb(194, 110, 110); */
   /* --header_bg:rgb(120,73,120);
   --header_bg:rgb(165,82,89); */
@@ -116,7 +118,7 @@ th
   min-height:35vh;
   width:100%;
   background:rgb(250,250,245);
-  background:rgb(250,250,245);
+  background:rgb(245,245,245);
   margin-bottom:1em;
   border:1px solid var(--header_bg);
   box-shadow: var(--element-shadow);
@@ -204,4 +206,33 @@ th
   background:orangered;
   width:15em;
   padding:0.8em;
+}
+
+
+.waiting{
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, .8 ) 
+              url('../img/ajax-loader.gif') 
+              50% 50% 
+              no-repeat;
+}
+
+/* When the body has the loading class, we turn
+ the scrollbar off with overflow:hidden */
+body.loading {
+  overflow: hidden;   
+}
+
+
+
+/* Anytime the body has the loading class, our
+ modal element will be visible */
+body.loading .waiting {
+  display: block;
 }

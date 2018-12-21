@@ -47,6 +47,9 @@ block content
               $('.view_detail').click(function(){
                 $(".lateral-menu").toggleClass('open');
               })
+              $('.close_lateral').click(function(){
+                $(".lateral-menu").toggleClass('open');
+              })
           } );
 
       .container-fluid
@@ -55,6 +58,8 @@ block content
             br
             if SelectedCode
               h5 [ #{codeDetail[0].ErrorCode} ] Evolution nombre de tickets ( 5 derniers jours)
+                p.float-right
+                  a.btn.close_lateral X
               br
               if resolutionData.length > 0 
                 each pastDay in resolutionData

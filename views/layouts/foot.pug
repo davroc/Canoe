@@ -1,1 +1,12 @@
-link(rel="text/javascript",href="../node_modules/bootstrap/dist/js/bootstrap.min.js")
+	script.
+    $(document).on({
+      ajaxStart: function() { $("body").addClass("loading");    },
+      ajaxStop: function() { $("body").removeClass("loading"); } ,  
+      load:function() { $("body").removeClass("loading");    }
+    });
+
+
+    $("body").addClass("loading");
+    $(window).load(function() {
+      $("body").removeClass("loading");
+    });

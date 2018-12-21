@@ -60,3 +60,19 @@ label
   top:20em;
   border-radius:1em;
 }
+
+#changePwdErrors
+{
+  color:red;
+  font-size:1.2em;
+}
+
+.errorMessage
+{
+  color:red;
+  padding:0.4em;
+  border:1px solid red;
+  border-radius:3px;
+  background:rgb(245,195,195);
+
+}
