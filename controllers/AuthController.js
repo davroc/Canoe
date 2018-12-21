@@ -53,15 +53,22 @@ exports.postLogin=(req,res,next)=>{
         if(doMatch)
         {
            console.log('ok');
-          req.session.isAuthenticated=true;
-          req.session.login=auth[0].login_user;
-          req.session.isAdmin = (auth[0].admin== 1 ? true : false) ;
-          req.session.isParam = (auth[0].droits_user == 1 ? true : false);
-          //console.log(auth[0].isAdmin);
-          req.session.save((err)=>{
-            console.log(err);
-            res.redirect('/');
-          });
+           AuthModel.logAccess(l,loginRecord=>{
+             if (loginRecord[0].affectedRows == 1)
+             {
+              req.session.isAuthenticated=true;
+              req.session.login=auth[0].login_user;
+              req.session.isAdmin = (auth[0].admin== 1 ? true : false) ;
+              req.session.isParam = (auth[0].droits_user == 1 ? true : false);
+              //console.log(auth[0].isAdmin);
+              req.session.save((err)=>{
+                console.log(err);
+                res.redirect('/');
+              });
+             }
+
+           })
+
         }
         else
         {

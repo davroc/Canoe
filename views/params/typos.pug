@@ -84,7 +84,10 @@ block content
                                         label(for "newTypo_Source") Source Potentielle:
                                         textarea.form-control(name="newTypo_Source",id="newTypo_Source")
                                         label(for "newTypo_Collecte") Collecte Impactée:
-                                        input.form-control(type="text",name="newTypo_Collecte",id="newTypo_Collecte")
+                                        select.form-control(name="newTypo_Collecte",id="newTypo_Collecte")
+                                            option(value="") Choisir
+                                            for c in collecte
+                                                option(value=c.lib_collecte) #{c.lib_collecte}
                                         label(for "newTypo_resp") Responsabilité:
                                         select.form-control(name="newTypo_Resp")    
                                             option(value="") Choisir

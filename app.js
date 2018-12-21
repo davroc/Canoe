@@ -68,7 +68,7 @@ const authRoutes=require('./routes/auth');
 
 app.use(bodyParser.urlencoded({extended: false}));
 var sessionStore = new MySQLStore({}/* session store options */, db);
-app.use(session({secret:'145409KLDKFDF09jkrueiufsd7!.efsdf',resave:false,saveUninitialized:false,store: sessionStore}));
+app.use(session({secret:'145409KLDKFDF09jkrueiufsd7!.efsdf',resave:false,saveUninitialized:false,cookie: { maxAge: 600000 },store: sessionStore}));
 
 app.use(function(req,res,next){
     res.locals.session = req.session;

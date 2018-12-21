@@ -52,9 +52,10 @@ exports.getTypos =(req,res,next)=>{
   ParamModel.getTypoList(liste_typos =>{
     ParamModel.getCodesList(liste_errorcodes =>{
       ParamModel.getRespList(liste_resp=>{
-        res.render('params/typos',{typos : liste_typos, errorCodes : liste_errorcodes, resp:liste_resp})
+       ParamModel.getCollecteList(liste_collectes=>{
+        res.render('params/typos',{typos : liste_typos, errorCodes : liste_errorcodes, resp:liste_resp,collecte:liste_collectes})
+        })
       })
-      
     })
   })
 }
@@ -77,8 +78,12 @@ exports.editTypo =(req,res,next)=>{
   const id_typo = req.params.typo;
   console.log(id_typo);
   ParamModel.getTypo(id_typo,typo_data =>{
+    ParamModel.getRespList(liste_resp=>{
+      ParamModel.getCollecteList(liste_collectes=>{
     //console.log(typo_data);
-    res.render('params/edit_typo',{pageTitle:'Edition de la typologie',typo_data:typo_data})
+    res.render('params/edit_typo',{pageTitle:'Edition de la typologie',typo_data:typo_data,resp:liste_resp,collecte:liste_collectes})
+      })
+    })
   })
 }
 

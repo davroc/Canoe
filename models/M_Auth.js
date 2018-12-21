@@ -35,6 +35,16 @@ exports.updatePwdUser = (user_pwd,user_login,isUpdated)=>
   });
 }
 
+exports.logAccess = (login,logrecorded)=>{
+  console.log(login);
+  sql= 'insert into connections (login_user,date_connection ) VALUES ("'+ login +'",NOW())';
+  db.execute(sql)
+  .then(res=>{
+    logrecorded(res);
+  })
+ .catch(err=>{console.log(err) });
+}
+
 exports.createUser = (user_data,isCreated)=>{
  
   bcrypt.hash(user_data.pwd_user,12).then(hashedPwd=>{

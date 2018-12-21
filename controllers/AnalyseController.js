@@ -98,19 +98,17 @@ exports.getEvoAno = (req,res,next)=>{
    });
   });
   });
-}
+};
 
 exports.getInfoAno = (req,res,next)=>{
     AnalyseModel.getListeErrCodes(codes =>{
     res.render('analyse/code_identity',{ pageTitle: 'Focus Code Erreur', path: '/analyse/code_identity',code_list:codes  })
  });
-}
+};
 
 exports.getErrCodeDetail=(req,res,next)=>{
   
   const ErrCode=req.params.code;
-
-  //console.log(ErrCode);
 
   AnalyseModel.getListeErrCodes(codes =>{
     ParamModel.getMaxDataInsertionDate(maxdt =>{
@@ -122,7 +120,7 @@ exports.getErrCodeDetail=(req,res,next)=>{
             AnalyseModel.getCodeInfo(ErrCode,codeDetail =>{
               AnalyseModel.getCodeRelatedTypologies(ErrCode,codeTypos =>{
                 AnalyseModel.getrResolutioninLastDays(ErrCode,maxdt,Resolution=>{
-                console.log(Resolution);
+                //console.log(Resolution);
                 res.render('analyse/code_identity',{ pageTitle: 'Focus Code Erreur', 
                 path: '/analyse/code_identity',
                 code_list:codes,
@@ -144,4 +142,4 @@ exports.getErrCodeDetail=(req,res,next)=>{
       })
     })
 });
-}
+};

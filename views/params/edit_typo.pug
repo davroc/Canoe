@@ -18,9 +18,15 @@ block styles
                   label(for="edit_typo_source_potentielle") Source Potentielle             
                   textarea.form-control( name="edit_typo_source_potentielle") #{typo_data[0].source_potentielle}
                   label(for="edit_typo_collecte") Collecte Impactée      
-                  input.form-control(type="text" name="edit_typo_collecte",value=typo_data[0].collecte_impactee)
+                  select.form-control(name="edit_typo_collecte")
+                    option(value='') CHOISIR
+                    for c in collecte
+                      option(value=c.lib_collecte,selected=( c.lib_collecte == typo_data[0].collecte_impactee ? true : false)) #{c.lib_collecte}
                   label(for="edit_typo_resp") Responsabilité      
-                  input.form-control(type="text" name="edit_typo_resp",value=typo_data[0].responsabilite)
+                  select.form-control(name="edit_typo_resp")
+                    option(value='') CHOISIR
+                    for r in resp
+                      option(value=r.entite_responsable,selected=( r.entite_responsable == typo_data[0].responsabilite ? true : false)) #{r.entite_responsable}
               br
               br
               .row.justify-content-end

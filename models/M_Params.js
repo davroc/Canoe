@@ -186,3 +186,12 @@ exports.getCliList  = liste_clis => {
       .catch(err=>{return err});    
   }
 
+  exports.getCollecteList=(cb)=>
+  {
+    db.execute('SELECT * from collecte_impactee')
+      .then(res=>{
+        cb(res[0]);
+        //console.log(res[0]);
+      })
+      .catch(err=>{return err});    
+  }

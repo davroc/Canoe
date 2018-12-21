@@ -63,9 +63,9 @@ else
 }
  var DailyAlerts = headerTop + translatedTop + headerRupture + translatedRupture + headerDerive + translatedDerive;
  var writeStream = fs.createWriteStream(path.join(__dirname,'../','reportings','jour','CANOE_AlerteQuotidienne_'+ today.toLocaleDateString() +'.xls'));
-   console.log(top);
-   console.log(translatedTop);
-   console.log(DailyAlerts);
+  // console.log(top);
+  // console.log(translatedTop);
+  // console.log(DailyAlerts);
 
  writeStream.write(DailyAlerts);
  writeStream.close();
@@ -105,7 +105,7 @@ function createRuptureTable(headers,weeklyCodedata)
   let RuptureTableHeader=`<table><thead><tr><th>Code </th>`;
 
     const h=Object.values(headers[0])
-    console.log(h);                                      
+    //console.log(h);                                      
       for (var i in h)
       {
         RuptureTableHeader += `<th>${h[i]}</th>`;
